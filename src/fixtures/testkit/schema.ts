@@ -125,7 +125,11 @@ function describe(value: unknown): string {
 /** Re-throws a low-level JSON syntax error as the same FixtureValidationError shape. */
 function asFixtureError(file: string, error: unknown): FixtureValidationError {
   if (error instanceof JsonSyntaxError) {
-    return new FixtureValidationError(file, error.message.replace(/^Malformed JSON in "[^"]*" at [^:]*: /, 'malformed JSON: '), error.position);
+    return new FixtureValidationError(
+      file,
+      error.message.replace(/^Malformed JSON in "[^"]*" at [^:]*: /, 'malformed JSON: '),
+      error.position,
+    );
   }
   throw error;
 }
@@ -217,11 +221,7 @@ export function parseScoresFixtureIncremental(file: string, text: string): Score
 
 const REQUIRED_DESTINATION_FIELDS = ['id', 'type', 'label', 'notes'] as const;
 
-function parseDestinationEntry(
-  s: JsonScanner,
-  file: string,
-  index: number,
-): DestinationFixture {
+function parseDestinationEntry(s: JsonScanner, file: string, index: number): DestinationFixture {
   const entryPos = s.position;
   if (s.peekChar() !== '{') {
     // Matches the object-based validator's behavior: indexing a missing or
@@ -305,14 +305,21 @@ function parseDestinationEntry(
  * soon as its closing `}` is tokenized — a malformed entry throws before
  * any later entry in the array is even scanned.
  */
-export function parseDestinationsFixtureIncremental(file: string, text: string): DestinationsFixture {
+export function parseDestinationsFixtureIncremental(
+  file: string,
+  text: string,
+): DestinationsFixture {
   const s = new JsonScanner(text, file);
   try {
     s.skipWhitespace();
     if (s.peekChar() !== '{') {
       const rootPos = s.position;
       const token = s.readValueForDescription();
-      throw new FixtureValidationError(file, `expected a JSON object, got ${describeToken(token)}`, rootPos);
+      throw new FixtureValidationError(
+        file,
+        `expected a JSON object, got ${describeToken(token)}`,
+        rootPos,
+      );
     }
     s.consumeChar('{');
 
@@ -383,7 +390,10 @@ export function parseDestinationsFixtureIncremental(file: string, text: string):
     }
 
     if (!sawDestinationsField) {
-      throw new FixtureValidationError(file, `expected field "destinations" to be an array, got undefined`);
+      throw new FixtureValidationError(
+        file,
+        `expected field "destinations" to be an array, got undefined`,
+      );
     }
 
     s.skipWhitespace();

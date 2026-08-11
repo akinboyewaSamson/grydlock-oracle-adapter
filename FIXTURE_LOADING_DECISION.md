@@ -20,7 +20,7 @@ synthetic fixture sets (10k / 50k / 100k / 200k entries), measures module
 import time and heap delta for each via Node's ESM JSON import, and runs
 50k lookups per size to measure average lookup latency. It has no hard
 pass/fail assertions on those numbers — it logs a JSON summary via
-`console.log` — but it *is* included in `tests/**/*.test.ts`
+`console.log` — but it _is_ included in `tests/**/*.test.ts`
 (`vitest.config.ts`), so it runs on every `npm test`, including in CI
 (`.github/workflows/ci.yml` runs `npm test` on every push/PR). It has been
 producing real numbers on every CI run since #63 merged; they just hadn't
@@ -32,13 +32,13 @@ Pulled from a recent green CI run
 (`gh run view 29987148365 --repo Gryd-lock/grydlock-oracle-adapter --log`,
 2026-07-23, `main`):
 
-| Fixture               | Import time | Heap delta | Avg lookup |
-| ---------------------- | ----------: | ---------: | ---------: |
-| current (vendored)     |     ~40 ms  |   ~0.6 MB  |   ~5.4 µs  |
-| synthetic 10,000       |     ~31 ms  |   ~0.7 MB  |   ~0.49 µs |
-| synthetic 50,000       |     ~22 ms  |   ~0.5 MB  |   ~0.75 µs |
-| synthetic 100,000      |     ~19 ms  |  (noisy, GC-dependent) | ~0.53 µs |
-| synthetic 200,000      |     ~15 ms  |   ~0.6 MB  |   ~0.44 µs |
+| Fixture            | Import time |            Heap delta | Avg lookup |
+| ------------------ | ----------: | --------------------: | ---------: |
+| current (vendored) |      ~40 ms |               ~0.6 MB |    ~5.4 µs |
+| synthetic 10,000   |      ~31 ms |               ~0.7 MB |   ~0.49 µs |
+| synthetic 50,000   |      ~22 ms |               ~0.5 MB |   ~0.75 µs |
+| synthetic 100,000  |      ~19 ms | (noisy, GC-dependent) |   ~0.53 µs |
+| synthetic 200,000  |      ~15 ms |               ~0.6 MB |   ~0.44 µs |
 
 (A second run in the same log shows the same shape: 11–41 ms import,
 sub-megabyte heap deltas, sub-microsecond average lookups at every size —

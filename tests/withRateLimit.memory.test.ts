@@ -43,84 +43,80 @@ const BUCKET_MS = 100;
 const ROUND_STEP_MS = 50; // half a bucket per round: buckets churn steadily
 
 describe('withRateLimit: bounded memory under a large cumulative gossip volume', () => {
-  it(
-    'heap growth flattens as cumulative message count grows, instead of scaling with it',
-    async () => {
-      let capturedListener: ((event: { data: unknown }) => void) | undefined;
-      const clock = { t: 0 };
+  it('heap growth flattens as cumulative message count grows, instead of scaling with it', async () => {
+    let capturedListener: ((event: { data: unknown }) => void) | undefined;
+    const clock = { t: 0 };
 
-      const channel: BroadcastChannelLike = {
-        postMessage() {
-          /* the observer under test never needs to send for this check */
-        },
-        addEventListener(_type, listener) {
-          capturedListener = listener;
-        },
-      };
+    const channel: BroadcastChannelLike = {
+      postMessage() {
+        /* the observer under test never needs to send for this check */
+      },
+      addEventListener(_type, listener) {
+        capturedListener = listener;
+      },
+    };
 
-      const oracle = withRateLimit({
-        budget: 1_000_000, // high enough that admission checks never interfere with delivery
-        windowMs: WINDOW_MS,
-        bucketMs: BUCKET_MS,
-        channel,
-        contextId: 'observer',
-        now: () => clock.t,
-      })(noopOracle());
-      // Touch the oracle once so it's not eliminated as unused and the
-      // listener registration above has definitely happened.
-      await oracle.getScore('GDEST');
+    const oracle = withRateLimit({
+      budget: 1_000_000, // high enough that admission checks never interfere with delivery
+      windowMs: WINDOW_MS,
+      bucketMs: BUCKET_MS,
+      channel,
+      contextId: 'observer',
+      now: () => clock.t,
+    })(noopOracle());
+    // Touch the oracle once so it's not eliminated as unused and the
+    // listener registration above has definitely happened.
+    await oracle.getScore('GDEST');
 
-      if (!capturedListener) throw new Error('test setup failed: no message listener captured');
-      const deliver = capturedListener;
+    if (!capturedListener) throw new Error('test setup failed: no message listener captured');
+    const deliver = capturedListener;
 
-      function runRounds(count: number): void {
-        for (let i = 0; i < count; i++) {
-          clock.t += ROUND_STEP_MS;
-          for (let p = 0; p < PEER_COUNT; p++) {
-            deliver({
-              data: {
-                type: 'grydlock-oracle-adapter:rate-limit-gossip',
-                contextId: `peer-${p}`,
-                buckets: { [String(Math.floor(clock.t / BUCKET_MS))]: i + 1 },
-              },
-            });
-          }
+    function runRounds(count: number): void {
+      for (let i = 0; i < count; i++) {
+        clock.t += ROUND_STEP_MS;
+        for (let p = 0; p < PEER_COUNT; p++) {
+          deliver({
+            data: {
+              type: 'grydlock-oracle-adapter:rate-limit-gossip',
+              contextId: `peer-${p}`,
+              buckets: { [String(Math.floor(clock.t / BUCKET_MS))]: i + 1 },
+            },
+          });
         }
       }
+    }
 
-      // Warm up (JIT, initial Map allocations) before the first checkpoint
-      // so that one-time setup cost doesn't get counted as "growth".
-      runRounds(1_000);
-      maybeGc();
-      const heapAfterWarmup = measureHeapMB();
+    // Warm up (JIT, initial Map allocations) before the first checkpoint
+    // so that one-time setup cost doesn't get counted as "growth".
+    runRounds(1_000);
+    maybeGc();
+    const heapAfterWarmup = measureHeapMB();
 
-      runRounds(3_000); // +18,000 messages
-      maybeGc();
-      const heapAfterSecondCheckpoint = measureHeapMB();
+    runRounds(3_000); // +18,000 messages
+    maybeGc();
+    const heapAfterSecondCheckpoint = measureHeapMB();
 
-      runRounds(40_000); // +240,000 messages — over 13x the previous interval
-      maybeGc();
-      const heapAfterThirdCheckpoint = measureHeapMB();
+    runRounds(40_000); // +240,000 messages — over 13x the previous interval
+    maybeGc();
+    const heapAfterThirdCheckpoint = measureHeapMB();
 
-      const growthSmallInterval = Math.max(0, heapAfterSecondCheckpoint - heapAfterWarmup);
-      const growthLargeInterval = Math.max(0, heapAfterThirdCheckpoint - heapAfterSecondCheckpoint);
+    const growthSmallInterval = Math.max(0, heapAfterSecondCheckpoint - heapAfterWarmup);
+    const growthLargeInterval = Math.max(0, heapAfterThirdCheckpoint - heapAfterSecondCheckpoint);
 
-      // If state grew proportionally to message count, the large interval
-      // (13x more messages) would show roughly 13x the growth. Bounded
-      // state should instead show comparable (small) growth regardless —
-      // generously slacked at 10x specifically so GC/JIT noise on the small
-      // interval (which can be close to zero) doesn't produce a false
-      // failure; genuine unbounded growth clears this by a wide margin.
-      const allowedGrowth = growthSmallInterval * 10 + 2; // +2MB constant slack
-      expect(
-        growthLargeInterval,
-        `heap grew ${growthLargeInterval.toFixed(3)}MB over the 240,000-message interval vs ` +
-          `${growthSmallInterval.toFixed(3)}MB over the preceding 18,000-message interval — ` +
-          `state does not appear to be pruned/bounded (allowed <= ${allowedGrowth.toFixed(3)}MB)`,
-      ).toBeLessThanOrEqual(allowedGrowth);
-    },
-    60_000,
-  );
+    // If state grew proportionally to message count, the large interval
+    // (13x more messages) would show roughly 13x the growth. Bounded
+    // state should instead show comparable (small) growth regardless —
+    // generously slacked at 10x specifically so GC/JIT noise on the small
+    // interval (which can be close to zero) doesn't produce a false
+    // failure; genuine unbounded growth clears this by a wide margin.
+    const allowedGrowth = growthSmallInterval * 10 + 2; // +2MB constant slack
+    expect(
+      growthLargeInterval,
+      `heap grew ${growthLargeInterval.toFixed(3)}MB over the 240,000-message interval vs ` +
+        `${growthSmallInterval.toFixed(3)}MB over the preceding 18,000-message interval — ` +
+        `state does not appear to be pruned/bounded (allowed <= ${allowedGrowth.toFixed(3)}MB)`,
+    ).toBeLessThanOrEqual(allowedGrowth);
+  }, 60_000);
 
   it('a peer that stops broadcasting is no longer reflected once it ages out of the window', async () => {
     let capturedListener: ((event: { data: unknown }) => void) | undefined;

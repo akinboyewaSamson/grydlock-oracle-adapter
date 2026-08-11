@@ -116,7 +116,7 @@ whole file to parse into a JS object graph before validation could even start). 
 
 - `scripts/generate-fixture-text.mjs` emits `scores.text.ts`/`destinations.text.ts`, each just the
   vendored JSON file's exact source characters embedded as a string constant (`export default
-  "...";`). That's a plain string literal any bundler or the browser loads like any other module —
+"...";`). That's a plain string literal any bundler or the browser loads like any other module —
   no Node-only `fs`/streaming API ships in the bundle, and no special bundler loader config is
   required downstream. `tests/fixtureText.sync.test.ts` fails the build if a generated file drifts
   from its source `.json`.

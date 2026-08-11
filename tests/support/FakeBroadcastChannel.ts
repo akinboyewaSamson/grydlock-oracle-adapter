@@ -57,7 +57,12 @@ export class FakeBroadcastChannelBus {
     now: number,
     conditions: NetworkConditions,
   ): void {
-    const { lossRate = 0, duplicateRate = 0, maxReorderDelay = 0, random = Math.random } = conditions;
+    const {
+      lossRate = 0,
+      duplicateRate = 0,
+      maxReorderDelay = 0,
+      random = Math.random,
+    } = conditions;
     const members = this.membersByChannel.get(channelName);
     if (members === undefined) return;
 

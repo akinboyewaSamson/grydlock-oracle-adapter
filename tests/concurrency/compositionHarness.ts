@@ -20,6 +20,18 @@ export interface Stack {
 
 export type StackBuilder = (inner: RiskOracle, config: CircuitBreakerConfig) => Stack;
 
+async function settleLoggedInvocations(
+  schedule: Schedule,
+  schedulePool: ReadonlyArray<ReturnType<typeof createDeferred<number>>>,
+  invocationLog: readonly number[],
+  settled: Set<number>,
+): Promise<void> {
+  const activeIndices = invocationLog.filter((idx) => !settled.has(idx));
+  if (activeIndices.length === 0) return;
+  for (const idx of activeIndices) settled.add(idx);
+  await executeSchedule(schedule, schedulePool, activeIndices);
+}
+
 /** CircuitBreakerOracle outermost, CoalescingOracle innermost (wraps `inner`). */
 export const CIRCUIT_BREAKER_OUTER: StackBuilder = (inner, config) => {
   const breaker = new CircuitBreakerOracle(new CoalescingOracle(inner), config);
@@ -98,9 +110,15 @@ export async function runCompositionSchedule(
       (reason): CallerResult => ({ status: 'rejected', reason }),
     ),
   );
+  const probeInvocationLog = [...invocationLog];
 
-  const activeIndices = [...invocationLog];
-  await executeSchedule(schedule, schedulePool, activeIndices);
+  const settled = new Set<number>();
+  while (settled.size < schedule.numCallers) {
+    const before = settled.size;
+    await settleLoggedInvocations(schedule, schedulePool, invocationLog, settled);
+    await tick(4);
+    if (settled.size === before) break;
+  }
 
   const callerResults = await Promise.all(callerPromises);
 
@@ -116,6 +134,7 @@ export async function runCompositionSchedule(
   return {
     schedule,
     invocationLog,
+    probeInvocationLog,
     callerResults,
     finalState: stack.breaker.getState(),
     unhandledRejections: collector.slice(before),

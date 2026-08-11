@@ -5,7 +5,7 @@ import {
   CircuitBreakerOracle,
   CircuitBreakerState,
 } from '../../src/CircuitBreakerOracle';
-import { createDeferred, executeSchedule, FuzzInjectedError, Schedule } from './scheduler';
+import { createDeferred, executeSchedule, FuzzInjectedError, Schedule, tick } from './scheduler';
 import { CallerResult, CircuitBreakerTrace } from './invariants';
 
 const FUZZ_COOLDOWN_MS = 1000;
@@ -23,6 +23,18 @@ export type CircuitBreakerFactory = (
 
 export const fixedFactory: CircuitBreakerFactory = (oracle, config) =>
   new CircuitBreakerOracle(oracle, config);
+
+async function settleLoggedInvocations(
+  schedule: Schedule,
+  schedulePool: ReadonlyArray<ReturnType<typeof createDeferred<number>>>,
+  invocationLog: readonly number[],
+  settled: Set<number>,
+): Promise<void> {
+  const activeIndices = invocationLog.filter((idx) => !settled.has(idx));
+  if (activeIndices.length === 0) return;
+  for (const idx of activeIndices) settled.add(idx);
+  await executeSchedule(schedule, schedulePool, activeIndices);
+}
 
 /**
  * Faithful reintroduction of the pre-fix `CircuitBreakerOracle.getScore`:
@@ -155,20 +167,22 @@ export async function runCircuitBreakerSchedule(
       (reason): CallerResult => ({ status: 'rejected', reason }),
     ),
   );
+  const probeInvocationLog = [...invocationLog];
 
-  // `invocationLog` is fully populated synchronously by the dispatch loop
-  // above (see INV1's doc comment on CircuitBreakerOracle): whichever
-  // implementation is under test, every real downstream call happens inside
-  // the synchronous prefix of some caller's `getScore`, before any `await`
-  // in this function yields back here.
-  const activeIndices = [...invocationLog];
-  await executeSchedule(schedule, schedulePool, activeIndices);
+  const settled = new Set<number>();
+  while (settled.size < schedule.numCallers) {
+    const before = settled.size;
+    await settleLoggedInvocations(schedule, schedulePool, invocationLog, settled);
+    await tick(4);
+    if (settled.size === before) break;
+  }
 
   const callerResults = await Promise.all(callerPromises);
 
   return {
     schedule,
     invocationLog,
+    probeInvocationLog,
     callerResults,
     finalState: breaker.getState(),
   };

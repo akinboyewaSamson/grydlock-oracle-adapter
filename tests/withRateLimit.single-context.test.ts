@@ -91,8 +91,7 @@ describe('withRateLimit with no BroadcastChannel: exact match to a baseline sing
       for (let call = 0; call < CALLS_PER_TRIAL; call++) {
         // Random, sometimes-bursty gaps: many calls at the same instant,
         // occasional large jumps forward (so buckets actually expire).
-        const gap =
-          random() < 0.3 ? 0 : Math.floor(random() * (windowMs / 2));
+        const gap = random() < 0.3 ? 0 : Math.floor(random() * (windowMs / 2));
         virtualNow += gap;
 
         const [actual, expected] = await Promise.all([
@@ -111,7 +110,7 @@ describe('withRateLimit with no BroadcastChannel: exact match to a baseline sing
 
   it('admits exactly budget requests in a burst at t=0, then denies the next one', async () => {
     const budget = 10;
-    let virtualNow = 0;
+    const virtualNow = 0;
     const oracle = withRateLimit({
       budget,
       windowMs: 1000,

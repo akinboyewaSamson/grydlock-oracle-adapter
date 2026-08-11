@@ -25,6 +25,8 @@ export interface CircuitBreakerTrace {
   schedule: Schedule;
   /** Caller indices (0-based, in the order they occurred) that made a real downstream call. */
   invocationLog: number[];
+  /** Caller indices that made a real downstream call during the HALF_OPEN probe episode. */
+  probeInvocationLog?: number[];
   callerResults: CallerResult[];
   finalState: CircuitBreakerState;
 }
@@ -35,18 +37,19 @@ export interface CircuitBreakerTrace {
 export function checkCircuitBreakerInvariants(trace: CircuitBreakerTrace): InvariantViolation[] {
   const violations: InvariantViolation[] = [];
   const { schedule, invocationLog, callerResults, finalState } = trace;
+  const probeInvocationLog = trace.probeInvocationLog ?? invocationLog;
 
   // INV1 — at most one real downstream call per HALF_OPEN episode.
-  if (invocationLog.length > 1) {
+  if (probeInvocationLog.length > 1) {
     violations.push({
       name: 'INV1_SINGLE_PROBE',
-      detail: `expected exactly 1 real downstream call while OPEN/HALF_OPEN, got ${invocationLog.length} (caller indices: [${invocationLog.join(', ')}])`,
+      detail: `expected exactly 1 real downstream call while OPEN/HALF_OPEN, got ${probeInvocationLog.length} (caller indices: [${probeInvocationLog.join(', ')}])`,
     });
   }
 
   // INV2 — a failure outcome from any real probe must never be silently
   // overwritten by a concurrently-resolving success.
-  const hasFailure = invocationLog.some((idx) => schedule.outcomes[idx]?.kind === 'failure');
+  const hasFailure = probeInvocationLog.some((idx) => schedule.outcomes[idx]?.kind === 'failure');
   if (hasFailure && finalState === CircuitBreakerState.CLOSED) {
     violations.push({
       name: 'INV2_FAILURE_DOMINANCE',
@@ -54,13 +57,18 @@ export function checkCircuitBreakerInvariants(trace: CircuitBreakerTrace): Invar
     });
   }
 
-  // INV3 — corollary of INV1 for the coalescing design choice: every caller
-  // admitted into this episode must observe the identical settlement.
-  const distinctSettlements = new Set(callerResults.map(settlementKey));
-  if (distinctSettlements.size > 1) {
+  // INV3 — callers that shared the same HALF_OPEN probe must observe that
+  // probe's identical settlement. Callers that re-enter after a successful
+  // probe settles run as normal CLOSED-state calls and may legitimately
+  // observe independent outcomes.
+  const probedCallers = new Set(probeInvocationLog);
+  const probeSettlements = callerResults
+    .filter((_, callerIdx) => probedCallers.has(callerIdx))
+    .map(settlementKey);
+  if (new Set(probeSettlements).size > 1) {
     violations.push({
       name: 'INV3_CONSISTENT_SETTLEMENT',
-      detail: `callers disagreed on outcome: [${[...distinctSettlements].join(', ')}]`,
+      detail: `probe callers disagreed on outcome: [${probeSettlements.join(', ')}]`,
     });
   }
 

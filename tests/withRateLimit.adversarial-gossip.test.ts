@@ -111,11 +111,7 @@ async function runSimulation(params: SimParams): Promise<SimContext[]> {
  * for the whole run). Correct because the windowed count only *increases*
  * at an admission event and only decreases as time passes without one, so
  * the maximum over any window end time is attained at some admission event. */
-function maxCombinedInWindow(
-  contexts: SimContext[],
-  windowMs: number,
-  sinceMs: number,
-): number {
+function maxCombinedInWindow(contexts: SimContext[], windowMs: number, sinceMs: number): number {
   const all = contexts.flatMap((c) => c.admissions).sort((a, b) => a - b);
   let max = 0;
   for (const t of all) {
@@ -192,9 +188,10 @@ describe('adversarial gossip simulation: bound 2 (soft) — gossip measurably ti
     const tightBound = BUDGET + CONTEXT_COUNT; // bound 2
     const looseBound = CONTEXT_COUNT * BUDGET; // bound 1
 
-    expect(observed, 'lossless run should stay within the tight steady-state bound').toBeLessThanOrEqual(
-      tightBound,
-    );
+    expect(
+      observed,
+      'lossless run should stay within the tight steady-state bound',
+    ).toBeLessThanOrEqual(tightBound);
     expect(observed).toBeLessThan(looseBound);
   }, 30_000);
 

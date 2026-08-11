@@ -146,9 +146,8 @@ describe('property: merging a random sequence of updates converges to the same s
     const SEQUENCES = 300;
 
     for (let seq = 0; seq < SEQUENCES; seq++) {
-      const base: BucketMap[] = Array.from(
-        { length: 2 + Math.floor(random() * 4) },
-        () => randomBucketMap(random, 5, 20),
+      const base: BucketMap[] = Array.from({ length: 2 + Math.floor(random() * 4) }, () =>
+        randomBucketMap(random, 5, 20),
       );
       // Build a sequence that repeats each base update a random number of times.
       const withDuplicates: BucketMap[] = [];

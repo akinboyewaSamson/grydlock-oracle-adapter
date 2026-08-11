@@ -82,7 +82,9 @@ describe('withRateLimit: basic admit/deny (local-only, no channel)', () => {
   });
 
   it('composes via compose() like any other OracleMiddleware', async () => {
-    const oracle = compose(withRateLimit({ budget: 2, windowMs: 1000, channel: null }))(noopOracle());
+    const oracle = compose(withRateLimit({ budget: 2, windowMs: 1000, channel: null }))(
+      noopOracle(),
+    );
     await expect(oracle.getScore('GDEST')).resolves.toBe(7);
     await expect(oracle.getScore('GDEST')).resolves.toBe(7);
     await expect(oracle.getScore('GDEST')).rejects.toBeInstanceOf(OracleRateLimitError);

@@ -29,7 +29,10 @@ function makeDeterministicDestination(i: number): string {
   return encodeStrKey('ed25519PublicKey', payload);
 }
 
-function buildSyntheticScoresObject(size: number): { scores: Record<string, number>; destinations: string[] } {
+function buildSyntheticScoresObject(size: number): {
+  scores: Record<string, number>;
+  destinations: string[];
+} {
   const destinations: string[] = new Array(size);
   const scores: Record<string, number> = Object.create(null);
 
@@ -51,7 +54,10 @@ function ensureDir(p: string) {
   }
 }
 
-function createSyntheticFixtureModule(size: number): { modulePath: string; destinations: string[] } {
+function createSyntheticFixtureModule(size: number): {
+  modulePath: string;
+  destinations: string[];
+} {
   const baseDir = join(tmpdir(), 'grydlock-oracle-adapter-bench');
   ensureDir(baseDir);
 
@@ -82,7 +88,9 @@ function createSyntheticFixtureModule(size: number): { modulePath: string; desti
   return { modulePath, destinations };
 }
 
-async function measureModuleImportTime<T>(importer: () => Promise<T>): Promise<{ value: T; ns: bigint }> {
+async function measureModuleImportTime<T>(
+  importer: () => Promise<T>,
+): Promise<{ value: T; ns: bigint }> {
   // Attempt to reduce noise: run import once per measurement.
   const t0 = nowNs();
   const value = await importer();
@@ -104,130 +112,135 @@ async function importStubOracleCurrent(): Promise<unknown> {
 describe('StubOracle fixture loading + lookup benchmarks', () => {
   // Builds and imports fixtures of up to 200k destinations, then runs 50k
   // lookups per size — far beyond the default 5s per-test timeout.
-  it('benchmarks module import time and lookup latency across fixture sizes', { timeout: 300_000 }, async () => {
-    const sizes = DEFAULT_SIZES;
+  it(
+    'benchmarks module import time and lookup latency across fixture sizes',
+    { timeout: 300_000 },
+    async () => {
+      const sizes = DEFAULT_SIZES;
 
-    // Baseline current module.
-    const heapBefore = measureHeapMB();
+      // Baseline current module.
+      const heapBefore = measureHeapMB();
 
-    const currentImport = await measureModuleImportTime(() => importStubOracleCurrent());
-    const heapAfterImport = measureHeapMB();
-    const memAfter = process.memoryUsage();
+      const currentImport = await measureModuleImportTime(() => importStubOracleCurrent());
+      const heapAfterImport = measureHeapMB();
+      const memAfter = process.memoryUsage();
 
-    const currentSummary = {
-      label: 'current-fixture',
-      importMs: Number(currentImport.ns) / 1_000_000,
-      heapUsedMB_before: heapBefore,
-      heapUsedMB_after: heapAfterImport,
-      heapUsedMB_delta: heapAfterImport - heapBefore,
-      rssBytes: memAfter.rss,
-    };
-
-    // Lookup benchmark: after import.
-    const { StubOracle } = (await importStubOracleCurrent()) as { StubOracle: new () => { getScore: (d: string) => Promise<number> } };
-    const oracle = new StubOracle();
-
-    const currentDestinations: string[] = [];
-    // Build a small sample by requesting hits/misses deterministically.
-    // If the scores file is small, this will still work fine.
-    // We can't easily access the underlying SCORES object without reaching in,
-    // so we just probe a bunch of likely keys.
-    // Note: This is only for latency; correctness is covered by unit tests.
-    for (let i = 0; i < 10_000; i++) {
-      currentDestinations.push(makeDeterministicDestination(i));
-    }
-
-    const lookups = 50_000;
-    const destinationsForLookup: string[] = new Array(lookups);
-    for (let i = 0; i < lookups; i++) {
-      destinationsForLookup[i] = currentDestinations[i % currentDestinations.length];
-    }
-
-    // Warm-up
-    await oracle.getScore(destinationsForLookup[0]);
-
-    const tLookup0 = nowNs();
-    let sum = 0;
-    for (let i = 0; i < destinationsForLookup.length; i++) {
-      sum += await oracle.getScore(destinationsForLookup[i]);
-    }
-    const tLookup1 = nowNs();
-
-    // Prevent compiler from optimizing away.
-    expect(sum).toBeGreaterThanOrEqual(0);
-
-    const currentLookupSummary = {
-      label: 'current-fixture-lookup',
-      lookups,
-      totalLookupMs: Number(tLookup1 - tLookup0) / 1_000_000,
-      avgLookupUs: Number(tLookup1 - tLookup0) / lookups / 1_000,
-    };
-
-    const results: unknown[] = [currentSummary, currentLookupSummary];
-
-    // Synthetic sizes: measure eager import + lookup.
-    for (const size of sizes) {
-      const { modulePath, destinations } = createSyntheticFixtureModule(size);
-
-      const heapBeforeSynth = measureHeapMB();
-
-      // Import from file:// URL to ensure ESM JSON import works.
-      const fileUrl = `file://${modulePath.replace(/\\/g, '/')}`;
-      const imported = await measureModuleImportTime(async () => {
-        return import(fileUrl);
-      });
-
-      const heapAfterSynth = measureHeapMB();
-      const importedNs = imported.ns;
-
-      const lookupDestinations: string[] = new Array(50_000);
-      for (let i = 0; i < lookupDestinations.length; i++) {
-        // 80% hits, 20% misses
-        if (i % 5 !== 0) {
-          lookupDestinations[i] = destinations[i % destinations.length];
-        } else {
-          lookupDestinations[i] = makeDeterministicDestination(size + i);
-        }
-      }
-
-      // Minimal wrapper matching StubOracle: just map lookup.
-      const SCORES = (imported.value as { SCORES: Record<string, number> }).SCORES;
-
-      // Warm-up
-      void (SCORES[lookupDestinations[0]] ?? 0);
-
-      const tLookup0 = nowNs();
-      let s = 0;
-      for (let i = 0; i < lookupDestinations.length; i++) {
-        const k = lookupDestinations[i];
-        s += SCORES[k] ?? 0;
-      }
-      const tLookup1 = nowNs();
-      expect(s).toBeGreaterThanOrEqual(0);
-
-      const res = {
-        label: `synthetic-${size}`,
-        importMs: Number(importedNs) / 1_000_000,
-        heapUsedMB_before: heapBeforeSynth,
-        heapUsedMB_after: heapAfterSynth,
-        heapUsedMB_delta: heapAfterSynth - heapBeforeSynth,
-        lookups: lookupDestinations.length,
-        totalLookupMs: Number(tLookup1 - tLookup0) / 1_000_000,
-        avgLookupUs: Number(tLookup1 - tLookup0) / lookupDestinations.length / 1_000,
+      const currentSummary = {
+        label: 'current-fixture',
+        importMs: Number(currentImport.ns) / 1_000_000,
+        heapUsedMB_before: heapBefore,
+        heapUsedMB_after: heapAfterImport,
+        heapUsedMB_delta: heapAfterImport - heapBefore,
+        rssBytes: memAfter.rss,
       };
 
+      // Lookup benchmark: after import.
+      const { StubOracle } = (await importStubOracleCurrent()) as {
+        StubOracle: new () => { getScore: (d: string) => Promise<number> };
+      };
+      const oracle = new StubOracle();
 
-      results.push(res);
-    }
+      const currentDestinations: string[] = [];
+      // Build a small sample by requesting hits/misses deterministically.
+      // If the scores file is small, this will still work fine.
+      // We can't easily access the underlying SCORES object without reaching in,
+      // so we just probe a bunch of likely keys.
+      // Note: This is only for latency; correctness is covered by unit tests.
+      for (let i = 0; i < 10_000; i++) {
+        currentDestinations.push(makeDeterministicDestination(i));
+      }
 
-    console.log('StubOracle bench results (ms, heap MB):', JSON.stringify(results, null, 2));
+      const lookups = 50_000;
+      const destinationsForLookup: string[] = new Array(lookups);
+      for (let i = 0; i < lookups; i++) {
+        destinationsForLookup[i] = currentDestinations[i % currentDestinations.length];
+      }
 
-    // Hard assertions are intentionally absent; this is diagnostic/observability.
-    // The test will still fail if something breaks (e.g., module import fails).
-    expect(results.length).toBeGreaterThan(0);
-    // Generating + writing + importing synthetic fixtures up to 200k entries
-    // and running 50k+ lookups per size genuinely takes longer than
-    // vitest's 5s default; give it real headroom instead of racing it.
-  }, 45_000);
+      // Warm-up
+      await oracle.getScore(destinationsForLookup[0]);
+
+      const tLookup0 = nowNs();
+      let sum = 0;
+      for (let i = 0; i < destinationsForLookup.length; i++) {
+        sum += await oracle.getScore(destinationsForLookup[i]);
+      }
+      const tLookup1 = nowNs();
+
+      // Prevent compiler from optimizing away.
+      expect(sum).toBeGreaterThanOrEqual(0);
+
+      const currentLookupSummary = {
+        label: 'current-fixture-lookup',
+        lookups,
+        totalLookupMs: Number(tLookup1 - tLookup0) / 1_000_000,
+        avgLookupUs: Number(tLookup1 - tLookup0) / lookups / 1_000,
+      };
+
+      const results: unknown[] = [currentSummary, currentLookupSummary];
+
+      // Synthetic sizes: measure eager import + lookup.
+      for (const size of sizes) {
+        const { modulePath, destinations } = createSyntheticFixtureModule(size);
+
+        const heapBeforeSynth = measureHeapMB();
+
+        // Import from file:// URL to ensure ESM JSON import works.
+        const fileUrl = `file://${modulePath.replace(/\\/g, '/')}`;
+        const imported = await measureModuleImportTime(async () => {
+          return import(fileUrl);
+        });
+
+        const heapAfterSynth = measureHeapMB();
+        const importedNs = imported.ns;
+
+        const lookupDestinations: string[] = new Array(50_000);
+        for (let i = 0; i < lookupDestinations.length; i++) {
+          // 80% hits, 20% misses
+          if (i % 5 !== 0) {
+            lookupDestinations[i] = destinations[i % destinations.length];
+          } else {
+            lookupDestinations[i] = makeDeterministicDestination(size + i);
+          }
+        }
+
+        // Minimal wrapper matching StubOracle: just map lookup.
+        const SCORES = (imported.value as { SCORES: Record<string, number> }).SCORES;
+
+        // Warm-up
+        void (SCORES[lookupDestinations[0]] ?? 0);
+
+        const tLookup0 = nowNs();
+        let s = 0;
+        for (let i = 0; i < lookupDestinations.length; i++) {
+          const k = lookupDestinations[i];
+          s += SCORES[k] ?? 0;
+        }
+        const tLookup1 = nowNs();
+        expect(s).toBeGreaterThanOrEqual(0);
+
+        const res = {
+          label: `synthetic-${size}`,
+          importMs: Number(importedNs) / 1_000_000,
+          heapUsedMB_before: heapBeforeSynth,
+          heapUsedMB_after: heapAfterSynth,
+          heapUsedMB_delta: heapAfterSynth - heapBeforeSynth,
+          lookups: lookupDestinations.length,
+          totalLookupMs: Number(tLookup1 - tLookup0) / 1_000_000,
+          avgLookupUs: Number(tLookup1 - tLookup0) / lookupDestinations.length / 1_000,
+        };
+
+        results.push(res);
+      }
+
+      console.log('StubOracle bench results (ms, heap MB):', JSON.stringify(results, null, 2));
+
+      // Hard assertions are intentionally absent; this is diagnostic/observability.
+      // The test will still fail if something breaks (e.g., module import fails).
+      expect(results.length).toBeGreaterThan(0);
+      // Generating + writing + importing synthetic fixtures up to 200k entries
+      // and running 50k+ lookups per size genuinely takes longer than
+      // vitest's 5s default; give it real headroom instead of racing it.
+    },
+    45_000,
+  );
 });
-

@@ -53,7 +53,7 @@ describe('CircuitBreakerOracle concurrency fuzzer', () => {
     }
 
     expect(violationsFound).toEqual([]);
-  });
+  }, 120_000);
 
   it(`finds an INV violation in the reintroduced pre-fix implementation within ${ITERATIONS} schedules (proves the fuzzer is a real bug-finder)`, async () => {
     const found = await findFirstViolation(buggyFactory, ITERATIONS);

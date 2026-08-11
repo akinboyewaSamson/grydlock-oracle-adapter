@@ -138,11 +138,14 @@ export type BucketMap = ReadonlyMap<number, number>;
  * because `max(x, x) = x`. Never mutates either input.
  */
 export function joinBucketMaps(a: BucketMap, b: BucketMap): BucketMap {
-  if (a === b) return a;
-  const merged = new Map(a);
+  const merged = new Map<number, number>();
+  for (const [bucket, count] of a) {
+    if (count >= 0) merged.set(bucket, count);
+  }
   for (const [bucket, count] of b) {
+    if (count < 0) continue;
     const existing = merged.get(bucket) ?? 0;
-    if (count > existing) merged.set(bucket, count);
+    if (count > existing || !merged.has(bucket)) merged.set(bucket, count);
   }
   return merged;
 }

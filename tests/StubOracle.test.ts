@@ -42,9 +42,9 @@ describe('StubOracle', () => {
 
   it('throws InvalidDestinationError for malformed destinations', async () => {
     const oracle = new StubOracle();
-  
-    await expect(
-      oracle.getScore('not-a-stellar-address'),
-    ).rejects.toBeInstanceOf(InvalidDestinationError);
+
+    await expect(oracle.getScore('not-a-stellar-address')).rejects.toBeInstanceOf(
+      InvalidDestinationError,
+    );
   });
 });

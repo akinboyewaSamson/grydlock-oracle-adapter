@@ -128,14 +128,20 @@ export class JsonScanner {
   readString(): string {
     const start = this.i;
     if (this.text[this.i] !== '"') {
-      throw this.error(`expected a string, got ${this.atEnd() ? 'end of input' : JSON.stringify(this.text[this.i])}`);
+      throw this.error(
+        `expected a string, got ${this.atEnd() ? 'end of input' : JSON.stringify(this.text[this.i])}`,
+      );
     }
     this.i++;
     let out = '';
     let chunkStart = this.i;
     while (true) {
       if (this.i >= this.text.length) {
-        throw this.error('unterminated string', { offset: start, line: this.line, column: start - this.lineStartOffset + 1 });
+        throw this.error('unterminated string', {
+          offset: start,
+          line: this.line,
+          column: start - this.lineStartOffset + 1,
+        });
       }
       const c = this.text.charCodeAt(this.i);
       if (c === 0x22 /* " */) {
@@ -239,7 +245,9 @@ export class JsonScanner {
     if (this.tryReadKeyword('null')) return { kind: 'null' };
     const num = this.tryReadNumber();
     if (num !== undefined) return { kind: 'number', value: num };
-    throw this.error(`unexpected token ${this.atEnd() ? 'end of input' : JSON.stringify(this.text[this.i])}`);
+    throw this.error(
+      `unexpected token ${this.atEnd() ? 'end of input' : JSON.stringify(this.text[this.i])}`,
+    );
   }
 
   /** Skips (discards) the next JSON value without describing it. */
@@ -259,7 +267,11 @@ export class JsonScanner {
     let depth = 1;
     while (depth > 0) {
       if (this.i >= this.text.length) {
-        throw this.error(`unterminated "${open}"`, { offset: start, line: this.line, column: start - this.lineStartOffset + 1 });
+        throw this.error(`unterminated "${open}"`, {
+          offset: start,
+          line: this.line,
+          column: start - this.lineStartOffset + 1,
+        });
       }
       const c = this.text[this.i];
       if (c === '"') {

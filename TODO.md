@@ -6,4 +6,3 @@
 - [x] Remove/avoid implicit console usage from src/
 - [ ] Document example wiring in README.md
 - [ ] Run typecheck + tests
-

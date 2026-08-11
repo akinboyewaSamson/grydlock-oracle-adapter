@@ -61,10 +61,7 @@ function computeOptimalOfflineCost(
         cacheSet.length < capacity
           ? [[...cacheSet, destination]]
           : [
-              ...cacheSet.map((victim) => [
-                ...cacheSet.filter((d) => d !== victim),
-                destination,
-              ]),
+              ...cacheSet.map((victim) => [...cacheSet.filter((d) => d !== victim), destination]),
               [...cacheSet], // don't cache the newly-fetched destination at all
             ];
       let best = Infinity;
@@ -179,10 +176,7 @@ describe('withCache: competitive against the optimal offline baseline', () => {
       // working set of 2 — favors an eviction policy with real locality
       // awareness, which uniform-cost/confidence GreedyDual is (see the
       // withCache.ts module doc: it degenerates exactly to LRU here).
-      trace: [
-        'A', 'B', 'A', 'B', 'C', 'D', 'C', 'D',
-        'A', 'B', 'A', 'B', 'C', 'D', 'C', 'D',
-      ],
+      trace: ['A', 'B', 'A', 'B', 'C', 'D', 'C', 'D', 'A', 'B', 'A', 'B', 'C', 'D', 'C', 'D'],
       cost: { A: 1, B: 1, C: 1, D: 1 },
       confidence: { A: 1, B: 1, C: 1, D: 1 },
       capacity: 2,
@@ -194,11 +188,20 @@ describe('withCache: competitive against the optimal offline baseline', () => {
       // should keep the expensive pair resident rather than letting a
       // just-touched cheap entry bump one of them out.
       trace: [
-        'EXP1', 'EXP2', 'CHEAP1',
-        'EXP1', 'EXP2', 'CHEAP2',
-        'EXP1', 'EXP2', 'CHEAP3',
-        'EXP1', 'EXP2', 'CHEAP4',
-        'EXP1', 'EXP2',
+        'EXP1',
+        'EXP2',
+        'CHEAP1',
+        'EXP1',
+        'EXP2',
+        'CHEAP2',
+        'EXP1',
+        'EXP2',
+        'CHEAP3',
+        'EXP1',
+        'EXP2',
+        'CHEAP4',
+        'EXP1',
+        'EXP2',
       ],
       cost: { EXP1: 200, EXP2: 200, CHEAP1: 5, CHEAP2: 5, CHEAP3: 5, CHEAP4: 5 },
       confidence: { EXP1: 1, EXP2: 1, CHEAP1: 1, CHEAP2: 1, CHEAP3: 1, CHEAP4: 1 },
@@ -211,9 +214,20 @@ describe('withCache: competitive against the optimal offline baseline', () => {
       // wrong/stale often enough in practice to warrant low confidence.
       // Confidence-aware eviction should favor keeping the trusted one.
       trace: [
-        'TRUSTED', 'LOW1', 'TRUSTED', 'LOW2', 'TRUSTED', 'LOW3',
-        'TRUSTED', 'LOW1', 'TRUSTED', 'LOW2', 'TRUSTED', 'LOW3',
-        'TRUSTED', 'LOW4',
+        'TRUSTED',
+        'LOW1',
+        'TRUSTED',
+        'LOW2',
+        'TRUSTED',
+        'LOW3',
+        'TRUSTED',
+        'LOW1',
+        'TRUSTED',
+        'LOW2',
+        'TRUSTED',
+        'LOW3',
+        'TRUSTED',
+        'LOW4',
       ],
       cost: { TRUSTED: 50, LOW1: 50, LOW2: 50, LOW3: 50, LOW4: 50 },
       confidence: { TRUSTED: 0.95, LOW1: 0.1, LOW2: 0.1, LOW3: 0.1, LOW4: 0.1 },

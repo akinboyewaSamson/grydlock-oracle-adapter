@@ -21193,15 +21193,11 @@
     },
     {
       "ref": "grydlock-oracle-adapter@0.1.0|@eslint/js@10.0.1",
-      "dependsOn": [
-        "grydlock-oracle-adapter@0.1.0|eslint@10.6.0"
-      ]
+      "dependsOn": ["grydlock-oracle-adapter@0.1.0|eslint@10.6.0"]
     },
     {
       "ref": "grydlock-oracle-adapter@0.1.0|@types/node@26.1.0",
-      "dependsOn": [
-        "grydlock-oracle-adapter@0.1.0|undici-types@8.3.0"
-      ]
+      "dependsOn": ["grydlock-oracle-adapter@0.1.0|undici-types@8.3.0"]
     },
     {
       "ref": "grydlock-oracle-adapter@0.1.0|eslint@10.6.0",
@@ -21260,9 +21256,7 @@
     },
     {
       "ref": "grydlock-oracle-adapter@0.1.0|license-checker-rseidelsohn@4.4.2|nopt@7.2.1",
-      "dependsOn": [
-        "grydlock-oracle-adapter@0.1.0|license-checker-rseidelsohn@4.4.2|abbrev@2.0.0"
-      ]
+      "dependsOn": ["grydlock-oracle-adapter@0.1.0|license-checker-rseidelsohn@4.4.2|abbrev@2.0.0"]
     },
     {
       "ref": "grydlock-oracle-adapter@0.1.0|license-checker-rseidelsohn@4.4.2|spdx-expression-parse@3.0.1",
@@ -21379,9 +21373,7 @@
     },
     {
       "ref": "grydlock-oracle-adapter@0.1.0|conventional-changelog-conventionalcommits@10.2.1",
-      "dependsOn": [
-        "grydlock-oracle-adapter@0.1.0|@conventional-changelog/template@1.2.1"
-      ]
+      "dependsOn": ["grydlock-oracle-adapter@0.1.0|@conventional-changelog/template@1.2.1"]
     },
     {
       "ref": "grydlock-oracle-adapter@0.1.0|ajv-formats-draft2019@1.6.1",
@@ -21395,9 +21387,7 @@
     },
     {
       "ref": "grydlock-oracle-adapter@0.1.0|ajv-formats@3.0.1",
-      "dependsOn": [
-        "grydlock-oracle-adapter@0.1.0|ajv-formats@3.0.1|ajv@8.20.0"
-      ]
+      "dependsOn": ["grydlock-oracle-adapter@0.1.0|ajv-formats@3.0.1|ajv@8.20.0"]
     },
     {
       "ref": "grydlock-oracle-adapter@0.1.0|ajv-formats@3.0.1|ajv@8.20.0",
@@ -21476,15 +21466,11 @@
     },
     {
       "ref": "grydlock-oracle-adapter@0.1.0|@eslint/config-helpers@0.6.0",
-      "dependsOn": [
-        "grydlock-oracle-adapter@0.1.0|@eslint/core@1.2.1"
-      ]
+      "dependsOn": ["grydlock-oracle-adapter@0.1.0|@eslint/core@1.2.1"]
     },
     {
       "ref": "grydlock-oracle-adapter@0.1.0|@eslint/core@1.2.1",
-      "dependsOn": [
-        "grydlock-oracle-adapter@0.1.0|@types/json-schema@7.0.15"
-      ]
+      "dependsOn": ["grydlock-oracle-adapter@0.1.0|@types/json-schema@7.0.15"]
     },
     {
       "ref": "grydlock-oracle-adapter@0.1.0|@eslint/plugin-kit@0.7.2",
@@ -21529,9 +21515,7 @@
     },
     {
       "ref": "grydlock-oracle-adapter@0.1.0|debug@4.4.3",
-      "dependsOn": [
-        "grydlock-oracle-adapter@0.1.0|ms@2.1.3"
-      ]
+      "dependsOn": ["grydlock-oracle-adapter@0.1.0|ms@2.1.3"]
     },
     {
       "ref": "grydlock-oracle-adapter@0.1.0|escape-string-regexp@4.0.0"
@@ -21558,9 +21542,7 @@
     },
     {
       "ref": "grydlock-oracle-adapter@0.1.0|esquery@1.7.0",
-      "dependsOn": [
-        "grydlock-oracle-adapter@0.1.0|estraverse@5.3.0"
-      ]
+      "dependsOn": ["grydlock-oracle-adapter@0.1.0|estraverse@5.3.0"]
     },
     {
       "ref": "grydlock-oracle-adapter@0.1.0|esutils@2.0.3"
@@ -21570,9 +21552,7 @@
     },
     {
       "ref": "grydlock-oracle-adapter@0.1.0|file-entry-cache@8.0.0",
-      "dependsOn": [
-        "grydlock-oracle-adapter@0.1.0|flat-cache@4.0.1"
-      ]
+      "dependsOn": ["grydlock-oracle-adapter@0.1.0|flat-cache@4.0.1"]
     },
     {
       "ref": "grydlock-oracle-adapter@0.1.0|find-up@5.0.0",
@@ -21583,9 +21563,7 @@
     },
     {
       "ref": "grydlock-oracle-adapter@0.1.0|glob-parent@6.0.2",
-      "dependsOn": [
-        "grydlock-oracle-adapter@0.1.0|is-glob@4.0.3"
-      ]
+      "dependsOn": ["grydlock-oracle-adapter@0.1.0|is-glob@4.0.3"]
     },
     {
       "ref": "grydlock-oracle-adapter@0.1.0|ignore@5.3.2"
@@ -21595,9 +21573,7 @@
     },
     {
       "ref": "grydlock-oracle-adapter@0.1.0|is-glob@4.0.3",
-      "dependsOn": [
-        "grydlock-oracle-adapter@0.1.0|is-extglob@2.1.1"
-      ]
+      "dependsOn": ["grydlock-oracle-adapter@0.1.0|is-extglob@2.1.1"]
     },
     {
       "ref": "grydlock-oracle-adapter@0.1.0|jiti@2.6.1"
@@ -21607,9 +21583,7 @@
     },
     {
       "ref": "grydlock-oracle-adapter@0.1.0|minimatch@10.2.5",
-      "dependsOn": [
-        "grydlock-oracle-adapter@0.1.0|brace-expansion@5.0.7"
-      ]
+      "dependsOn": ["grydlock-oracle-adapter@0.1.0|brace-expansion@5.0.7"]
     },
     {
       "ref": "grydlock-oracle-adapter@0.1.0|natural-compare@1.4.0"
@@ -21634,9 +21608,7 @@
     },
     {
       "ref": "grydlock-oracle-adapter@0.1.0|chalk@4.1.2|ansi-styles@4.3.0",
-      "dependsOn": [
-        "grydlock-oracle-adapter@0.1.0|color-convert@2.0.1"
-      ]
+      "dependsOn": ["grydlock-oracle-adapter@0.1.0|color-convert@2.0.1"]
     },
     {
       "ref": "grydlock-oracle-adapter@0.1.0|lodash.clonedeep@4.5.0"
@@ -21657,9 +21629,7 @@
     },
     {
       "ref": "grydlock-oracle-adapter@0.1.0|read-installed-packages@2.0.1|@npmcli/fs@3.1.1",
-      "dependsOn": [
-        "grydlock-oracle-adapter@0.1.0|semver@7.8.5"
-      ]
+      "dependsOn": ["grydlock-oracle-adapter@0.1.0|semver@7.8.5"]
     },
     {
       "ref": "grydlock-oracle-adapter@0.1.0|semver@7.8.5"
@@ -21775,9 +21745,7 @@
     },
     {
       "ref": "grydlock-oracle-adapter@0.1.0|@vitest/pretty-format@4.1.10",
-      "dependsOn": [
-        "grydlock-oracle-adapter@0.1.0|tinyrainbow@3.1.0"
-      ]
+      "dependsOn": ["grydlock-oracle-adapter@0.1.0|tinyrainbow@3.1.0"]
     },
     {
       "ref": "grydlock-oracle-adapter@0.1.0|@vitest/runner@4.1.10",
@@ -21814,9 +21782,7 @@
     },
     {
       "ref": "grydlock-oracle-adapter@0.1.0|magic-string@0.30.21",
-      "dependsOn": [
-        "grydlock-oracle-adapter@0.1.0|@jridgewell/sourcemap-codec@1.5.5"
-      ]
+      "dependsOn": ["grydlock-oracle-adapter@0.1.0|@jridgewell/sourcemap-codec@1.5.5"]
     },
     {
       "ref": "grydlock-oracle-adapter@0.1.0|obug@2.1.3"
@@ -21948,9 +21914,7 @@
     },
     {
       "ref": "grydlock-oracle-adapter@0.1.0|@commitlint/top-level@21.2.0",
-      "dependsOn": [
-        "grydlock-oracle-adapter@0.1.0|escalade@3.2.0"
-      ]
+      "dependsOn": ["grydlock-oracle-adapter@0.1.0|escalade@3.2.0"]
     },
     {
       "ref": "grydlock-oracle-adapter@0.1.0|@conventional-changelog/git-client@3.1.0",
@@ -22004,21 +21968,15 @@
     },
     {
       "ref": "grydlock-oracle-adapter@0.1.0|schemes@1.4.0",
-      "dependsOn": [
-        "grydlock-oracle-adapter@0.1.0|extend@3.0.2"
-      ]
+      "dependsOn": ["grydlock-oracle-adapter@0.1.0|extend@3.0.2"]
     },
     {
       "ref": "grydlock-oracle-adapter@0.1.0|smtp-address-parser@1.1.0",
-      "dependsOn": [
-        "grydlock-oracle-adapter@0.1.0|nearley@2.20.1"
-      ]
+      "dependsOn": ["grydlock-oracle-adapter@0.1.0|nearley@2.20.1"]
     },
     {
       "ref": "grydlock-oracle-adapter@0.1.0|uri-js@4.4.1",
-      "dependsOn": [
-        "grydlock-oracle-adapter@0.1.0|punycode@2.3.1"
-      ]
+      "dependsOn": ["grydlock-oracle-adapter@0.1.0|punycode@2.3.1"]
     },
     {
       "ref": "grydlock-oracle-adapter@0.1.0|fast-uri@3.1.3"
@@ -22028,9 +21986,7 @@
     },
     {
       "ref": "grydlock-oracle-adapter@0.1.0|bindings@1.5.0",
-      "dependsOn": [
-        "grydlock-oracle-adapter@0.1.0|file-uri-to-path@1.0.0"
-      ]
+      "dependsOn": ["grydlock-oracle-adapter@0.1.0|file-uri-to-path@1.0.0"]
     },
     {
       "ref": "grydlock-oracle-adapter@0.1.0|nan@2.22.2"
@@ -22052,9 +22008,7 @@
     },
     {
       "ref": "grydlock-oracle-adapter@0.1.0|node-gyp@11.5.0|which@5.0.0",
-      "dependsOn": [
-        "grydlock-oracle-adapter@0.1.0|node-gyp@11.5.0|isexe@3.1.5"
-      ]
+      "dependsOn": ["grydlock-oracle-adapter@0.1.0|node-gyp@11.5.0|isexe@3.1.5"]
     },
     {
       "ref": "grydlock-oracle-adapter@0.1.0|node-gyp@11.5.0|isexe@3.1.5"
@@ -22078,9 +22032,7 @@
     },
     {
       "ref": "grydlock-oracle-adapter@0.1.0|hosted-git-info@8.1.0",
-      "dependsOn": [
-        "grydlock-oracle-adapter@0.1.0|lru-cache@10.4.3"
-      ]
+      "dependsOn": ["grydlock-oracle-adapter@0.1.0|lru-cache@10.4.3"]
     },
     {
       "ref": "grydlock-oracle-adapter@0.1.0|validate-npm-package-license@3.0.4",
@@ -22112,18 +22064,14 @@
     },
     {
       "ref": "grydlock-oracle-adapter@0.1.0|@oozcitak/infra@2.0.2",
-      "dependsOn": [
-        "grydlock-oracle-adapter@0.1.0|@oozcitak/util@10.0.0"
-      ]
+      "dependsOn": ["grydlock-oracle-adapter@0.1.0|@oozcitak/util@10.0.0"]
     },
     {
       "ref": "grydlock-oracle-adapter@0.1.0|@oozcitak/util@10.0.0"
     },
     {
       "ref": "grydlock-oracle-adapter@0.1.0|js-yaml@4.3.0",
-      "dependsOn": [
-        "grydlock-oracle-adapter@0.1.0|argparse@2.0.1"
-      ]
+      "dependsOn": ["grydlock-oracle-adapter@0.1.0|argparse@2.0.1"]
     },
     {
       "ref": "grydlock-oracle-adapter@0.1.0|@eslint/object-schema@3.0.5"
@@ -22140,9 +22088,7 @@
     },
     {
       "ref": "grydlock-oracle-adapter@0.1.0|@humanfs/core@0.19.2",
-      "dependsOn": [
-        "grydlock-oracle-adapter@0.1.0|@humanfs/types@0.15.0"
-      ]
+      "dependsOn": ["grydlock-oracle-adapter@0.1.0|@humanfs/types@0.15.0"]
     },
     {
       "ref": "grydlock-oracle-adapter@0.1.0|@humanfs/types@0.15.0"
@@ -22158,15 +22104,11 @@
     },
     {
       "ref": "grydlock-oracle-adapter@0.1.0|shebang-command@2.0.0",
-      "dependsOn": [
-        "grydlock-oracle-adapter@0.1.0|shebang-regex@3.0.0"
-      ]
+      "dependsOn": ["grydlock-oracle-adapter@0.1.0|shebang-regex@3.0.0"]
     },
     {
       "ref": "grydlock-oracle-adapter@0.1.0|which@2.0.2",
-      "dependsOn": [
-        "grydlock-oracle-adapter@0.1.0|isexe@2.0.0"
-      ]
+      "dependsOn": ["grydlock-oracle-adapter@0.1.0|isexe@2.0.0"]
     },
     {
       "ref": "grydlock-oracle-adapter@0.1.0|ms@2.1.3"
@@ -22176,18 +22118,14 @@
     },
     {
       "ref": "grydlock-oracle-adapter@0.1.0|esrecurse@4.3.0",
-      "dependsOn": [
-        "grydlock-oracle-adapter@0.1.0|estraverse@5.3.0"
-      ]
+      "dependsOn": ["grydlock-oracle-adapter@0.1.0|estraverse@5.3.0"]
     },
     {
       "ref": "grydlock-oracle-adapter@0.1.0|estraverse@5.3.0"
     },
     {
       "ref": "grydlock-oracle-adapter@0.1.0|acorn-jsx@5.3.2",
-      "dependsOn": [
-        "grydlock-oracle-adapter@0.1.0|acorn@8.17.0"
-      ]
+      "dependsOn": ["grydlock-oracle-adapter@0.1.0|acorn@8.17.0"]
     },
     {
       "ref": "grydlock-oracle-adapter@0.1.0|acorn@8.17.0"
@@ -22201,9 +22139,7 @@
     },
     {
       "ref": "grydlock-oracle-adapter@0.1.0|locate-path@6.0.0",
-      "dependsOn": [
-        "grydlock-oracle-adapter@0.1.0|p-locate@5.0.0"
-      ]
+      "dependsOn": ["grydlock-oracle-adapter@0.1.0|p-locate@5.0.0"]
     },
     {
       "ref": "grydlock-oracle-adapter@0.1.0|path-exists@4.0.0"
@@ -22213,9 +22149,7 @@
     },
     {
       "ref": "grydlock-oracle-adapter@0.1.0|brace-expansion@5.0.7",
-      "dependsOn": [
-        "grydlock-oracle-adapter@0.1.0|balanced-match@4.0.4"
-      ]
+      "dependsOn": ["grydlock-oracle-adapter@0.1.0|balanced-match@4.0.4"]
     },
     {
       "ref": "grydlock-oracle-adapter@0.1.0|deep-is@0.1.4"
@@ -22228,18 +22162,14 @@
     },
     {
       "ref": "grydlock-oracle-adapter@0.1.0|type-check@0.4.0",
-      "dependsOn": [
-        "grydlock-oracle-adapter@0.1.0|prelude-ls@1.2.1"
-      ]
+      "dependsOn": ["grydlock-oracle-adapter@0.1.0|prelude-ls@1.2.1"]
     },
     {
       "ref": "grydlock-oracle-adapter@0.1.0|word-wrap@1.2.5"
     },
     {
       "ref": "grydlock-oracle-adapter@0.1.0|supports-color@7.2.0",
-      "dependsOn": [
-        "grydlock-oracle-adapter@0.1.0|has-flag@4.0.0"
-      ]
+      "dependsOn": ["grydlock-oracle-adapter@0.1.0|has-flag@4.0.0"]
     },
     {
       "ref": "grydlock-oracle-adapter@0.1.0|graceful-fs@4.2.11"
@@ -22267,9 +22197,7 @@
     },
     {
       "ref": "grydlock-oracle-adapter@0.1.0|read-package-json@6.0.4|hosted-git-info@6.1.3",
-      "dependsOn": [
-        "grydlock-oracle-adapter@0.1.0|read-package-json@6.0.4|lru-cache@7.18.3"
-      ]
+      "dependsOn": ["grydlock-oracle-adapter@0.1.0|read-package-json@6.0.4|lru-cache@7.18.3"]
     },
     {
       "ref": "grydlock-oracle-adapter@0.1.0|read-package-json@6.0.4|lru-cache@7.18.3"
@@ -22323,9 +22251,7 @@
     },
     {
       "ref": "grydlock-oracle-adapter@0.1.0|ts-api-utils@2.5.0",
-      "dependsOn": [
-        "grydlock-oracle-adapter@0.1.0|typescript@6.0.3"
-      ]
+      "dependsOn": ["grydlock-oracle-adapter@0.1.0|typescript@6.0.3"]
     },
     {
       "ref": "grydlock-oracle-adapter@0.1.0|@typescript-eslint/types@8.63.0"
@@ -22341,9 +22267,7 @@
     },
     {
       "ref": "grydlock-oracle-adapter@0.1.0|@typescript-eslint/tsconfig-utils@8.63.0",
-      "dependsOn": [
-        "grydlock-oracle-adapter@0.1.0|typescript@6.0.3"
-      ]
+      "dependsOn": ["grydlock-oracle-adapter@0.1.0|typescript@6.0.3"]
     },
     {
       "ref": "grydlock-oracle-adapter@0.1.0|@standard-schema/spec@1.1.0"
@@ -22360,9 +22284,7 @@
     },
     {
       "ref": "grydlock-oracle-adapter@0.1.0|estree-walker@3.0.3",
-      "dependsOn": [
-        "grydlock-oracle-adapter@0.1.0|@types/estree@1.0.9"
-      ]
+      "dependsOn": ["grydlock-oracle-adapter@0.1.0|@types/estree@1.0.9"]
     },
     {
       "ref": "grydlock-oracle-adapter@0.1.0|convert-source-map@2.0.0"
@@ -22372,9 +22294,7 @@
     },
     {
       "ref": "grydlock-oracle-adapter@0.1.0|fdir@6.5.0",
-      "dependsOn": [
-        "grydlock-oracle-adapter@0.1.0|picomatch@4.0.5"
-      ]
+      "dependsOn": ["grydlock-oracle-adapter@0.1.0|picomatch@4.0.5"]
     },
     {
       "ref": "grydlock-oracle-adapter@0.1.0|lightningcss@1.32.0",
@@ -22409,9 +22329,7 @@
     },
     {
       "ref": "grydlock-oracle-adapter@0.1.0|conventional-changelog-angular@9.2.1",
-      "dependsOn": [
-        "grydlock-oracle-adapter@0.1.0|@conventional-changelog/template@1.2.1"
-      ]
+      "dependsOn": ["grydlock-oracle-adapter@0.1.0|@conventional-changelog/template@1.2.1"]
     },
     {
       "ref": "grydlock-oracle-adapter@0.1.0|@commitlint/ensure@21.2.0",
@@ -22428,9 +22346,7 @@
     },
     {
       "ref": "grydlock-oracle-adapter@0.1.0|global-directory@5.0.0",
-      "dependsOn": [
-        "grydlock-oracle-adapter@0.1.0|ini@6.0.0"
-      ]
+      "dependsOn": ["grydlock-oracle-adapter@0.1.0|ini@6.0.0"]
     },
     {
       "ref": "grydlock-oracle-adapter@0.1.0|resolve-from@5.0.0"
@@ -22459,9 +22375,7 @@
     },
     {
       "ref": "grydlock-oracle-adapter@0.1.0|@simple-libs/child-process-utils@2.0.0",
-      "dependsOn": [
-        "grydlock-oracle-adapter@0.1.0|@simple-libs/stream-utils@2.0.0"
-      ]
+      "dependsOn": ["grydlock-oracle-adapter@0.1.0|@simple-libs/stream-utils@2.0.0"]
     },
     {
       "ref": "grydlock-oracle-adapter@0.1.0|@simple-libs/stream-utils@2.0.0"
@@ -22471,9 +22385,7 @@
     },
     {
       "ref": "grydlock-oracle-adapter@0.1.0|strip-ansi@7.2.0",
-      "dependsOn": [
-        "grydlock-oracle-adapter@0.1.0|ansi-regex@6.2.2"
-      ]
+      "dependsOn": ["grydlock-oracle-adapter@0.1.0|ansi-regex@6.2.2"]
     },
     {
       "ref": "grydlock-oracle-adapter@0.1.0|wrap-ansi@9.0.2",
@@ -22528,9 +22440,7 @@
     },
     {
       "ref": "grydlock-oracle-adapter@0.1.0|nopt@8.1.0",
-      "dependsOn": [
-        "grydlock-oracle-adapter@0.1.0|abbrev@3.0.1"
-      ]
+      "dependsOn": ["grydlock-oracle-adapter@0.1.0|abbrev@3.0.1"]
     },
     {
       "ref": "grydlock-oracle-adapter@0.1.0|proc-log@5.0.0"
@@ -22565,9 +22475,7 @@
     },
     {
       "ref": "grydlock-oracle-adapter@0.1.0|node-abi@3.94.0",
-      "dependsOn": [
-        "grydlock-oracle-adapter@0.1.0|semver@7.8.5"
-      ]
+      "dependsOn": ["grydlock-oracle-adapter@0.1.0|semver@7.8.5"]
     },
     {
       "ref": "grydlock-oracle-adapter@0.1.0|pump@3.0.4",
@@ -22610,9 +22518,7 @@
     },
     {
       "ref": "grydlock-oracle-adapter@0.1.0|tunnel-agent@0.6.0",
-      "dependsOn": [
-        "grydlock-oracle-adapter@0.1.0|safe-buffer@5.2.1"
-      ]
+      "dependsOn": ["grydlock-oracle-adapter@0.1.0|safe-buffer@5.2.1"]
     },
     {
       "ref": "grydlock-oracle-adapter@0.1.0|lru-cache@10.4.3"
@@ -22638,24 +22544,18 @@
     },
     {
       "ref": "grydlock-oracle-adapter@0.1.0|keyv@4.5.4",
-      "dependsOn": [
-        "grydlock-oracle-adapter@0.1.0|json-buffer@3.0.1"
-      ]
+      "dependsOn": ["grydlock-oracle-adapter@0.1.0|json-buffer@3.0.1"]
     },
     {
       "ref": "grydlock-oracle-adapter@0.1.0|p-locate@5.0.0",
-      "dependsOn": [
-        "grydlock-oracle-adapter@0.1.0|p-limit@3.1.0"
-      ]
+      "dependsOn": ["grydlock-oracle-adapter@0.1.0|p-limit@3.1.0"]
     },
     {
       "ref": "grydlock-oracle-adapter@0.1.0|balanced-match@4.0.4"
     },
     {
       "ref": "grydlock-oracle-adapter@0.1.0|color-convert@2.0.1",
-      "dependsOn": [
-        "grydlock-oracle-adapter@0.1.0|color-name@1.1.4"
-      ]
+      "dependsOn": ["grydlock-oracle-adapter@0.1.0|color-name@1.1.4"]
     },
     {
       "ref": "grydlock-oracle-adapter@0.1.0|has-flag@4.0.0"
@@ -22673,15 +22573,11 @@
     },
     {
       "ref": "grydlock-oracle-adapter@0.1.0|glob@10.5.0|minimatch@9.0.9",
-      "dependsOn": [
-        "grydlock-oracle-adapter@0.1.0|glob@10.5.0|brace-expansion@2.1.2"
-      ]
+      "dependsOn": ["grydlock-oracle-adapter@0.1.0|glob@10.5.0|brace-expansion@2.1.2"]
     },
     {
       "ref": "grydlock-oracle-adapter@0.1.0|glob@10.5.0|brace-expansion@2.1.2",
-      "dependsOn": [
-        "grydlock-oracle-adapter@0.1.0|glob@10.5.0|balanced-match@1.0.2"
-      ]
+      "dependsOn": ["grydlock-oracle-adapter@0.1.0|glob@10.5.0|balanced-match@1.0.2"]
     },
     {
       "ref": "grydlock-oracle-adapter@0.1.0|glob@10.5.0|balanced-match@1.0.2"
@@ -22727,9 +22623,7 @@
     },
     {
       "ref": "grydlock-oracle-adapter@0.1.0|parent-module@1.0.1",
-      "dependsOn": [
-        "grydlock-oracle-adapter@0.1.0|callsites@3.1.0"
-      ]
+      "dependsOn": ["grydlock-oracle-adapter@0.1.0|callsites@3.1.0"]
     },
     {
       "ref": "grydlock-oracle-adapter@0.1.0|@babel/code-frame@7.29.7",
@@ -22741,9 +22635,7 @@
     },
     {
       "ref": "grydlock-oracle-adapter@0.1.0|error-ex@1.3.4",
-      "dependsOn": [
-        "grydlock-oracle-adapter@0.1.0|is-arrayish@0.2.1"
-      ]
+      "dependsOn": ["grydlock-oracle-adapter@0.1.0|is-arrayish@0.2.1"]
     },
     {
       "ref": "grydlock-oracle-adapter@0.1.0|json-parse-even-better-errors@2.3.1"
@@ -22811,30 +22703,22 @@
     },
     {
       "ref": "grydlock-oracle-adapter@0.1.0|minipass-flush@1.0.7",
-      "dependsOn": [
-        "grydlock-oracle-adapter@0.1.0|minipass-flush@1.0.7|minipass@3.3.6"
-      ]
+      "dependsOn": ["grydlock-oracle-adapter@0.1.0|minipass-flush@1.0.7|minipass@3.3.6"]
     },
     {
       "ref": "grydlock-oracle-adapter@0.1.0|minipass-flush@1.0.7|minipass@3.3.6",
-      "dependsOn": [
-        "grydlock-oracle-adapter@0.1.0|minipass-flush@1.0.7|yallist@4.0.0"
-      ]
+      "dependsOn": ["grydlock-oracle-adapter@0.1.0|minipass-flush@1.0.7|yallist@4.0.0"]
     },
     {
       "ref": "grydlock-oracle-adapter@0.1.0|minipass-flush@1.0.7|yallist@4.0.0"
     },
     {
       "ref": "grydlock-oracle-adapter@0.1.0|minipass-pipeline@1.2.4",
-      "dependsOn": [
-        "grydlock-oracle-adapter@0.1.0|minipass-pipeline@1.2.4|minipass@3.3.6"
-      ]
+      "dependsOn": ["grydlock-oracle-adapter@0.1.0|minipass-pipeline@1.2.4|minipass@3.3.6"]
     },
     {
       "ref": "grydlock-oracle-adapter@0.1.0|minipass-pipeline@1.2.4|minipass@3.3.6",
-      "dependsOn": [
-        "grydlock-oracle-adapter@0.1.0|minipass-pipeline@1.2.4|yallist@4.0.0"
-      ]
+      "dependsOn": ["grydlock-oracle-adapter@0.1.0|minipass-pipeline@1.2.4|yallist@4.0.0"]
     },
     {
       "ref": "grydlock-oracle-adapter@0.1.0|minipass-pipeline@1.2.4|yallist@4.0.0"
@@ -22854,42 +22738,32 @@
     },
     {
       "ref": "grydlock-oracle-adapter@0.1.0|ssri@12.0.0",
-      "dependsOn": [
-        "grydlock-oracle-adapter@0.1.0|minipass@7.1.3"
-      ]
+      "dependsOn": ["grydlock-oracle-adapter@0.1.0|minipass@7.1.3"]
     },
     {
       "ref": "grydlock-oracle-adapter@0.1.0|abbrev@3.0.1"
     },
     {
       "ref": "grydlock-oracle-adapter@0.1.0|@isaacs/fs-minipass@4.0.1",
-      "dependsOn": [
-        "grydlock-oracle-adapter@0.1.0|minipass@7.1.3"
-      ]
+      "dependsOn": ["grydlock-oracle-adapter@0.1.0|minipass@7.1.3"]
     },
     {
       "ref": "grydlock-oracle-adapter@0.1.0|chownr@3.0.0"
     },
     {
       "ref": "grydlock-oracle-adapter@0.1.0|minizlib@3.1.0",
-      "dependsOn": [
-        "grydlock-oracle-adapter@0.1.0|minipass@7.1.3"
-      ]
+      "dependsOn": ["grydlock-oracle-adapter@0.1.0|minipass@7.1.3"]
     },
     {
       "ref": "grydlock-oracle-adapter@0.1.0|yallist@5.0.0"
     },
     {
       "ref": "grydlock-oracle-adapter@0.1.0|end-of-stream@1.4.5",
-      "dependsOn": [
-        "grydlock-oracle-adapter@0.1.0|once@1.4.0"
-      ]
+      "dependsOn": ["grydlock-oracle-adapter@0.1.0|once@1.4.0"]
     },
     {
       "ref": "grydlock-oracle-adapter@0.1.0|once@1.4.0",
-      "dependsOn": [
-        "grydlock-oracle-adapter@0.1.0|wrappy@1.0.2"
-      ]
+      "dependsOn": ["grydlock-oracle-adapter@0.1.0|wrappy@1.0.2"]
     },
     {
       "ref": "grydlock-oracle-adapter@0.1.0|deep-extend@0.6.0"
@@ -22899,9 +22773,7 @@
     },
     {
       "ref": "grydlock-oracle-adapter@0.1.0|decompress-response@6.0.0",
-      "dependsOn": [
-        "grydlock-oracle-adapter@0.1.0|mimic-response@3.1.0"
-      ]
+      "dependsOn": ["grydlock-oracle-adapter@0.1.0|mimic-response@3.1.0"]
     },
     {
       "ref": "grydlock-oracle-adapter@0.1.0|simple-concat@1.0.1"
@@ -22924,9 +22796,7 @@
     },
     {
       "ref": "grydlock-oracle-adapter@0.1.0|p-limit@3.1.0",
-      "dependsOn": [
-        "grydlock-oracle-adapter@0.1.0|yocto-queue@0.1.0"
-      ]
+      "dependsOn": ["grydlock-oracle-adapter@0.1.0|yocto-queue@0.1.0"]
     },
     {
       "ref": "grydlock-oracle-adapter@0.1.0|color-name@1.1.4"
@@ -22957,9 +22827,7 @@
     },
     {
       "ref": "grydlock-oracle-adapter@0.1.0|is-core-module@2.16.2",
-      "dependsOn": [
-        "grydlock-oracle-adapter@0.1.0|hasown@2.0.4"
-      ]
+      "dependsOn": ["grydlock-oracle-adapter@0.1.0|hasown@2.0.4"]
     },
     {
       "ref": "grydlock-oracle-adapter@0.1.0|callsites@3.1.0"
@@ -23006,48 +22874,34 @@
     },
     {
       "ref": "grydlock-oracle-adapter@0.1.0|@npmcli/fs@4.0.0",
-      "dependsOn": [
-        "grydlock-oracle-adapter@0.1.0|semver@7.8.5"
-      ]
+      "dependsOn": ["grydlock-oracle-adapter@0.1.0|semver@7.8.5"]
     },
     {
       "ref": "grydlock-oracle-adapter@0.1.0|fs-minipass@3.0.3",
-      "dependsOn": [
-        "grydlock-oracle-adapter@0.1.0|minipass@7.1.3"
-      ]
+      "dependsOn": ["grydlock-oracle-adapter@0.1.0|minipass@7.1.3"]
     },
     {
       "ref": "grydlock-oracle-adapter@0.1.0|minipass-collect@2.0.1",
-      "dependsOn": [
-        "grydlock-oracle-adapter@0.1.0|minipass@7.1.3"
-      ]
+      "dependsOn": ["grydlock-oracle-adapter@0.1.0|minipass@7.1.3"]
     },
     {
       "ref": "grydlock-oracle-adapter@0.1.0|p-map@7.0.5"
     },
     {
       "ref": "grydlock-oracle-adapter@0.1.0|unique-filename@4.0.0",
-      "dependsOn": [
-        "grydlock-oracle-adapter@0.1.0|unique-slug@5.0.0"
-      ]
+      "dependsOn": ["grydlock-oracle-adapter@0.1.0|unique-slug@5.0.0"]
     },
     {
       "ref": "grydlock-oracle-adapter@0.1.0|encoding@0.1.13",
-      "dependsOn": [
-        "grydlock-oracle-adapter@0.1.0|iconv-lite@0.6.3"
-      ]
+      "dependsOn": ["grydlock-oracle-adapter@0.1.0|iconv-lite@0.6.3"]
     },
     {
       "ref": "grydlock-oracle-adapter@0.1.0|minipass-sized@1.0.3",
-      "dependsOn": [
-        "grydlock-oracle-adapter@0.1.0|minipass-sized@1.0.3|minipass@3.3.6"
-      ]
+      "dependsOn": ["grydlock-oracle-adapter@0.1.0|minipass-sized@1.0.3|minipass@3.3.6"]
     },
     {
       "ref": "grydlock-oracle-adapter@0.1.0|minipass-sized@1.0.3|minipass@3.3.6",
-      "dependsOn": [
-        "grydlock-oracle-adapter@0.1.0|minipass-sized@1.0.3|yallist@4.0.0"
-      ]
+      "dependsOn": ["grydlock-oracle-adapter@0.1.0|minipass-sized@1.0.3|yallist@4.0.0"]
     },
     {
       "ref": "grydlock-oracle-adapter@0.1.0|minipass-sized@1.0.3|yallist@4.0.0"
@@ -23127,9 +22981,7 @@
     },
     {
       "ref": "grydlock-oracle-adapter@0.1.0|hasown@2.0.4",
-      "dependsOn": [
-        "grydlock-oracle-adapter@0.1.0|function-bind@1.1.2"
-      ]
+      "dependsOn": ["grydlock-oracle-adapter@0.1.0|function-bind@1.1.2"]
     },
     {
       "ref": "grydlock-oracle-adapter@0.1.0|socks@2.8.9",
@@ -23140,15 +22992,11 @@
     },
     {
       "ref": "grydlock-oracle-adapter@0.1.0|unique-slug@5.0.0",
-      "dependsOn": [
-        "grydlock-oracle-adapter@0.1.0|imurmurhash@0.1.4"
-      ]
+      "dependsOn": ["grydlock-oracle-adapter@0.1.0|imurmurhash@0.1.4"]
     },
     {
       "ref": "grydlock-oracle-adapter@0.1.0|iconv-lite@0.6.3",
-      "dependsOn": [
-        "grydlock-oracle-adapter@0.1.0|safer-buffer@2.1.2"
-      ]
+      "dependsOn": ["grydlock-oracle-adapter@0.1.0|safer-buffer@2.1.2"]
     },
     {
       "ref": "grydlock-oracle-adapter@0.1.0|buffer@5.7.1",
@@ -23159,9 +23007,7 @@
     },
     {
       "ref": "grydlock-oracle-adapter@0.1.0|string_decoder@1.3.0",
-      "dependsOn": [
-        "grydlock-oracle-adapter@0.1.0|safe-buffer@5.2.1"
-      ]
+      "dependsOn": ["grydlock-oracle-adapter@0.1.0|safe-buffer@5.2.1"]
     },
     {
       "ref": "grydlock-oracle-adapter@0.1.0|util-deprecate@1.0.2"
@@ -23179,18 +23025,14 @@
     },
     {
       "ref": "grydlock-oracle-adapter@0.1.0|string-width@4.2.3|strip-ansi@6.0.1",
-      "dependsOn": [
-        "grydlock-oracle-adapter@0.1.0|string-width@4.2.3|ansi-regex@5.0.1"
-      ]
+      "dependsOn": ["grydlock-oracle-adapter@0.1.0|string-width@4.2.3|ansi-regex@5.0.1"]
     },
     {
       "ref": "grydlock-oracle-adapter@0.1.0|string-width@4.2.3|ansi-regex@5.0.1"
     },
     {
       "ref": "grydlock-oracle-adapter@0.1.0|strip-ansi@6.0.1",
-      "dependsOn": [
-        "grydlock-oracle-adapter@0.1.0|strip-ansi@6.0.1|ansi-regex@5.0.1"
-      ]
+      "dependsOn": ["grydlock-oracle-adapter@0.1.0|strip-ansi@6.0.1|ansi-regex@5.0.1"]
     },
     {
       "ref": "grydlock-oracle-adapter@0.1.0|strip-ansi@6.0.1|ansi-regex@5.0.1"
@@ -23205,9 +23047,7 @@
     },
     {
       "ref": "grydlock-oracle-adapter@0.1.0|wrap-ansi@7.0.0|ansi-styles@4.3.0",
-      "dependsOn": [
-        "grydlock-oracle-adapter@0.1.0|color-convert@2.0.1"
-      ]
+      "dependsOn": ["grydlock-oracle-adapter@0.1.0|color-convert@2.0.1"]
     },
     {
       "ref": "grydlock-oracle-adapter@0.1.0|wrap-ansi@7.0.0|string-width@4.2.3",
@@ -23219,9 +23059,7 @@
     },
     {
       "ref": "grydlock-oracle-adapter@0.1.0|wrap-ansi@7.0.0|strip-ansi@6.0.1",
-      "dependsOn": [
-        "grydlock-oracle-adapter@0.1.0|wrap-ansi@7.0.0|ansi-regex@5.0.1"
-      ]
+      "dependsOn": ["grydlock-oracle-adapter@0.1.0|wrap-ansi@7.0.0|ansi-regex@5.0.1"]
     },
     {
       "ref": "grydlock-oracle-adapter@0.1.0|wrap-ansi@7.0.0|emoji-regex@8.0.0"

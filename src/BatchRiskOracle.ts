@@ -256,7 +256,10 @@ class BatchRiskOracleAdapter implements BatchRiskOracle {
     );
   }
 
-  async getScores(requests: BatchDestinationRequest[], options: BatchCallOptions): Promise<BatchResult> {
+  async getScores(
+    requests: BatchDestinationRequest[],
+    options: BatchCallOptions,
+  ): Promise<BatchResult> {
     if (requests.length === 0) {
       return { results: [] };
     }
@@ -362,7 +365,10 @@ class BatchRiskOracleAdapter implements BatchRiskOracle {
         const untilInfeasible = entry.deadlineAt - checkAt - bound;
         soonestMs = Math.min(soonestMs, Math.max(0, untilInfeasible));
       }
-      this.pendingTimer = setTimeout(() => this.scheduleTick(), Math.min(soonestMs, MAX_POLL_MS) || 1);
+      this.pendingTimer = setTimeout(
+        () => this.scheduleTick(),
+        Math.min(soonestMs, MAX_POLL_MS) || 1,
+      );
     }
   }
 
@@ -379,7 +385,10 @@ class BatchRiskOracleAdapter implements BatchRiskOracle {
         },
         (error: unknown) => {
           this.estimator.record(Date.now() - startedAt);
-          this.logger.warn('BatchRiskOracle.itemFailed', { destination: entry.destination, err: error });
+          this.logger.warn('BatchRiskOracle.itemFailed', {
+            destination: entry.destination,
+            err: error,
+          });
           entry.finish({ destination: entry.destination, status: 'rejected', error });
         },
       )
@@ -397,6 +406,9 @@ class BatchRiskOracleAdapter implements BatchRiskOracle {
  * existing `RiskOracle`, including decorators like `CoalescingOracle` or
  * `CircuitBreakerOracle`.
  */
-export function toBatchOracle(oracle: RiskOracle, options: BatchRiskOracleOptions): BatchRiskOracle {
+export function toBatchOracle(
+  oracle: RiskOracle,
+  options: BatchRiskOracleOptions,
+): BatchRiskOracle {
   return new BatchRiskOracleAdapter(oracle, options);
 }

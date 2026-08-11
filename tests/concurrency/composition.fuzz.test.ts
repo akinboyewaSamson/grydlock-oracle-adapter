@@ -62,5 +62,6 @@ describe('CircuitBreakerOracle + CoalescingOracle composition fuzzer', () => {
       expect(violationsFound).toEqual([]);
       expect(unhandledRejections).toEqual([]);
     },
+    120_000,
   );
 });

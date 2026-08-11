@@ -16,8 +16,12 @@ describe('parseScoresFixtureIncremental', () => {
   });
 
   it('rejects a truncated fixture (not an object)', () => {
-    expect(() => parseScoresFixtureIncremental('scores.json', 'null')).toThrow(FixtureValidationError);
-    expect(() => parseScoresFixtureIncremental('scores.json', '[]')).toThrow(FixtureValidationError);
+    expect(() => parseScoresFixtureIncremental('scores.json', 'null')).toThrow(
+      FixtureValidationError,
+    );
+    expect(() => parseScoresFixtureIncremental('scores.json', '[]')).toThrow(
+      FixtureValidationError,
+    );
   });
 
   it('rejects a non-numeric score with a message naming the file, destination, value, and position', () => {
@@ -86,7 +90,9 @@ describe('parseDestinationsFixtureIncremental', () => {
   });
 
   it('accepts an empty destinations array', () => {
-    expect(parseDestinationsFixtureIncremental('destinations.json', '{"destinations": []}')).toEqual({
+    expect(
+      parseDestinationsFixtureIncremental('destinations.json', '{"destinations": []}'),
+    ).toEqual({
       destinations: [],
     });
   });
@@ -149,7 +155,9 @@ describe('parseDestinationsFixtureIncremental', () => {
   it('ignores unrecognized extra fields on an entry and at the root', () => {
     const text = JSON.stringify({
       schemaVersion: 3,
-      destinations: [{ id: 'GABC', type: 'account', label: 'clean', notes: 'ok', extra: { nested: [1, 2] } }],
+      destinations: [
+        { id: 'GABC', type: 'account', label: 'clean', notes: 'ok', extra: { nested: [1, 2] } },
+      ],
     });
 
     expect(parseDestinationsFixtureIncremental('destinations.json', text)).toEqual({

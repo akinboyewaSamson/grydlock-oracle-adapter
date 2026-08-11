@@ -87,7 +87,9 @@ function buildDestinationsText(
       // Missing the required `notes` field.
       parts.push(`${i > 0 ? ',' : ''}{"id":"${id}","type":"account","label":"${label}"}`);
     } else {
-      parts.push(`${i > 0 ? ',' : ''}{"id":"${id}","type":"account","label":"${label}","notes":"synthetic"}`);
+      parts.push(
+        `${i > 0 ? ',' : ''}{"id":"${id}","type":"account","label":"${label}","notes":"synthetic"}`,
+      );
     }
   }
   parts.push(']}');
@@ -98,7 +100,9 @@ function buildDestinationsText(
 function heapUsedMB(): number {
   const gc = (globalThis as { gc?: () => void }).gc;
   if (typeof gc !== 'function') {
-    throw new Error('global.gc() is unavailable - vitest must run with --expose-gc (see vitest.config.ts)');
+    throw new Error(
+      'global.gc() is unavailable - vitest must run with --expose-gc (see vitest.config.ts)',
+    );
   }
   gc();
   gc();
@@ -112,7 +116,10 @@ function heapUsedMB(): number {
  * materialize-then-validate-into-a-second-tree pattern this issue asks to
  * be ruled out, kept here only as a comparison point.
  */
-function materializeTwiceBaseline(text: string): { parsed: unknown; validated: Record<string, number> } {
+function materializeTwiceBaseline(text: string): {
+  parsed: unknown;
+  validated: Record<string, number>;
+} {
   const parsed = JSON.parse(text) as Record<string, unknown>;
   const validated: Record<string, number> = {};
   for (const [destination, score] of Object.entries(parsed)) {

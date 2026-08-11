@@ -1,5 +1,9 @@
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
-import { CircuitBreakerOracle, CircuitBreakerState, CircuitBreakerConfig } from '../src/CircuitBreakerOracle';
+import {
+  CircuitBreakerOracle,
+  CircuitBreakerState,
+  CircuitBreakerConfig,
+} from '../src/CircuitBreakerOracle';
 import { RiskOracle } from '../src/RiskOracle';
 
 class MockOracle implements RiskOracle {
@@ -36,7 +40,7 @@ describe('CircuitBreakerOracle', () => {
 
   it('transitions to OPEN after failureThreshold is reached', async () => {
     mockOracle.getScore.mockRejectedValue(new Error('Network Error'));
-    
+
     await expect(circuitBreaker.getScore('addr1')).rejects.toThrow('Network Error');
     expect(circuitBreaker.getState()).toBe(CircuitBreakerState.CLOSED);
 
@@ -49,17 +53,17 @@ describe('CircuitBreakerOracle', () => {
 
   it('ignores non-infrastructure errors for state transitions', async () => {
     mockOracle.getScore.mockRejectedValue(new Error('Business Error'));
-    
+
     for (let i = 0; i < 5; i++) {
       await expect(circuitBreaker.getScore('addr1')).rejects.toThrow('Business Error');
     }
-    
+
     expect(circuitBreaker.getState()).toBe(CircuitBreakerState.CLOSED);
   });
 
   it('transitions to HALF_OPEN after cooldownWindow', async () => {
     mockOracle.getScore.mockRejectedValue(new Error('Network Error'));
-    
+
     // Trip the breaker
     for (let i = 0; i < 3; i++) {
       await expect(circuitBreaker.getScore('addr1')).rejects.toThrow();
@@ -77,7 +81,7 @@ describe('CircuitBreakerOracle', () => {
     // Next call should be HALF_OPEN and pass through
     mockOracle.getScore.mockResolvedValue(80);
     const score = await circuitBreaker.getScore('addr1');
-    
+
     expect(score).toBe(80);
     expect(mockOracle.getScore).toHaveBeenCalledTimes(1);
     expect(circuitBreaker.getState()).toBe(CircuitBreakerState.CLOSED);
@@ -85,12 +89,12 @@ describe('CircuitBreakerOracle', () => {
 
   it('transitions from HALF_OPEN back to OPEN if probe fails', async () => {
     mockOracle.getScore.mockRejectedValue(new Error('Network Error'));
-    
+
     // Trip the breaker
     for (let i = 0; i < 3; i++) {
       await expect(circuitBreaker.getScore('addr1')).rejects.toThrow();
     }
-    
+
     // Advance time to allow probe
     vi.advanceTimersByTime(5000);
 
@@ -107,7 +111,7 @@ describe('CircuitBreakerOracle', () => {
   it('uses fallback function when OPEN', async () => {
     circuitBreaker = new CircuitBreakerOracle(mockOracle, {
       ...config,
-      fallback: async () => 99
+      fallback: async () => 99,
     });
 
     mockOracle.getScore.mockRejectedValue(new Error('Network Error'));
@@ -116,7 +120,7 @@ describe('CircuitBreakerOracle', () => {
       const result = await circuitBreaker.getScore('addr1');
       expect(result).toBe(99);
     }
-    
+
     expect(circuitBreaker.getState()).toBe(CircuitBreakerState.OPEN);
 
     // Subsequent call uses fallback without reaching oracle
@@ -130,14 +134,14 @@ describe('CircuitBreakerOracle', () => {
     const fallbackError = new Error('Custom Fallback Error');
     circuitBreaker = new CircuitBreakerOracle(mockOracle, {
       ...config,
-      fallback: fallbackError
+      fallback: fallbackError,
     });
 
     mockOracle.getScore.mockRejectedValue(new Error('Network Error'));
     for (let i = 0; i < 2; i++) {
       await expect(circuitBreaker.getScore('addr1')).rejects.toThrow('Custom Fallback Error');
     }
-    
+
     // 3rd failure trips the breaker
     await expect(circuitBreaker.getScore('addr1')).rejects.toThrow('Custom Fallback Error');
     expect(circuitBreaker.getState()).toBe(CircuitBreakerState.OPEN);

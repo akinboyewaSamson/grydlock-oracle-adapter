@@ -5,4 +5,7 @@ import { parseDestinationsFixtureIncremental } from './schema';
 // alongside `scores`, and for why this parses raw text incrementally
 // instead of importing destinations.json (which a bundler would parse into
 // a full object graph before we ever got a chance to validate it).
-export const destinations = parseDestinationsFixtureIncremental('destinations.json', destinationsText);
+export const destinations = parseDestinationsFixtureIncremental(
+  'destinations.json',
+  destinationsText,
+);

@@ -193,13 +193,25 @@ describe('withCache: stale-while-revalidate', () => {
       getScoreDetailed: async () => {
         calls += 1;
         if (calls === 1) {
-          return { score: 10, timestamp: clock.now(), source: 'X', cacheStatus: 'live', confidence: 1 };
+          return {
+            score: 10,
+            timestamp: clock.now(),
+            source: 'X',
+            cacheStatus: 'live',
+            confidence: 1,
+          };
         }
         // The background revalidation: held open until the test releases it.
         await new Promise<void>((resolve) => {
           releaseRevalidation = resolve;
         });
-        return { score: 20, timestamp: clock.now(), source: 'X', cacheStatus: 'live', confidence: 1 };
+        return {
+          score: 20,
+          timestamp: clock.now(),
+          source: 'X',
+          cacheStatus: 'live',
+          confidence: 1,
+        };
       },
     };
     const cached = withCache({ ttlMs: 1000, staleMs: 1000, now: clock.now })(oracle);
@@ -238,7 +250,13 @@ describe('withCache: stale-while-revalidate', () => {
         getScoreDetailed: async () => {
           calls += 1;
           if (calls === 1) {
-            return { score: 10, timestamp: clock.now(), source: 'X', cacheStatus: 'live', confidence: 1 };
+            return {
+              score: 10,
+              timestamp: clock.now(),
+              source: 'X',
+              cacheStatus: 'live',
+              confidence: 1,
+            };
           }
           throw new Error('revalidation boom');
         },

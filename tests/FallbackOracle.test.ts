@@ -4,9 +4,7 @@ import { RiskOracle } from '../src/RiskOracle';
 import { FallbackObserver } from '../src/FallbackObserver';
 
 class FakeOracle implements RiskOracle {
-  constructor(
-    private readonly fn: (destination: string) => Promise<number>,
-  ) {}
+  constructor(private readonly fn: (destination: string) => Promise<number>) {}
 
   getScore(destination: string): Promise<number> {
     return this.fn(destination);
@@ -20,9 +18,7 @@ describe('FallbackOracle', () => {
       new FakeOracle(async () => 99),
     ]);
 
-    await expect(
-      oracle.getScore('destination'),
-    ).resolves.toBe(10);
+    await expect(oracle.getScore('destination')).resolves.toBe(10);
   });
 
   it('falls back to the second oracle', async () => {
@@ -33,9 +29,7 @@ describe('FallbackOracle', () => {
       new FakeOracle(async () => 42),
     ]);
 
-    await expect(
-      oracle.getScore('destination'),
-    ).resolves.toBe(42);
+    await expect(oracle.getScore('destination')).resolves.toBe(42);
   });
 
   it('falls back through multiple failed tiers', async () => {
@@ -49,9 +43,7 @@ describe('FallbackOracle', () => {
       new FakeOracle(async () => 77),
     ]);
 
-    await expect(
-      oracle.getScore('destination'),
-    ).resolves.toBe(77);
+    await expect(oracle.getScore('destination')).resolves.toBe(77);
   });
 
   it('throws when every oracle fails', async () => {
@@ -64,17 +56,15 @@ describe('FallbackOracle', () => {
       }),
     ]);
 
-    await expect(
-      oracle.getScore('destination'),
-    ).rejects.toThrow('Two');
+    await expect(oracle.getScore('destination')).rejects.toThrow('Two');
   });
 
   it('throws when no oracles are configured', async () => {
     const oracle = new FallbackOracle([]);
 
-    await expect(
-      oracle.getScore('destination'),
-    ).rejects.toThrow('FallbackOracle has no configured oracles.');
+    await expect(oracle.getScore('destination')).rejects.toThrow(
+      'FallbackOracle has no configured oracles.',
+    );
   });
 
   it('notifies the observer for each failed fallback', async () => {
@@ -95,9 +85,7 @@ describe('FallbackOracle', () => {
       observer,
     );
 
-    await expect(
-      oracle.getScore('destination'),
-    ).resolves.toBe(88);
+    await expect(oracle.getScore('destination')).resolves.toBe(88);
 
     expect(observer.onFallback).toHaveBeenCalledTimes(2);
   });

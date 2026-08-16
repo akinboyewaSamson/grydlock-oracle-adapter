@@ -333,6 +333,40 @@ describe('withCache: GreedyDual eviction signal isolation', () => {
     expect(callCount()).toBe(5);
   });
 
+  it('stale heap nodes left behind by repeated touches cannot evict the current entry', async () => {
+    // Every touch (cache hit or fetch) pushes a fresh heap node without
+    // removing the previous one for that destination (see the module doc on
+    // lazy deletion) — so after several hits on the same destination, older
+    // nodes for it are "stale": superseded by a later one with a higher
+    // version. This drives A's node count up past what a single eviction
+    // pass would need, without crossing the 2x-entries compaction threshold
+    // that would otherwise clean them up first, so the stale nodes are still
+    // sitting in the heap when eviction actually runs.
+    const clock = manualClock();
+    const { oracle, callCount } = configuredOracle(clock, {
+      A: { cost: 1000, confidence: 1 },
+      B: { cost: 1, confidence: 1 },
+      C: { cost: 1, confidence: 1 },
+    });
+    const cached = withCache({ ttlMs: 1_000_000, maxEntries: 2, now: clock.now })(oracle);
+
+    await cached.getScore('A'); // calls=1
+    await cached.getScore('B'); // calls=2, at capacity
+    await cached.getScore('A'); // cache-fresh hit: strands a stale heap node for A
+    await cached.getScore('A'); // cache-fresh hit: strands another stale heap node for A
+    expect(callCount()).toBe(2); // all three A calls after the first were hits
+
+    await cached.getScore('C'); // calls=3, forces eviction with A's stale nodes still present
+    expect(callCount()).toBe(3);
+
+    await cached.getScore('A'); // still cached — must not be evicted via a stale node
+    expect(callCount()).toBe(3);
+    await cached.getScore('C'); // still cached
+    expect(callCount()).toBe(3);
+    await cached.getScore('B'); // was genuinely evicted (cheapest) → refetch
+    expect(callCount()).toBe(4);
+  });
+
   it('cost: with equal recency and confidence, the higher-cost entry survives eviction', async () => {
     const clock = manualClock();
     const { oracle, callCount } = configuredOracle(clock, {

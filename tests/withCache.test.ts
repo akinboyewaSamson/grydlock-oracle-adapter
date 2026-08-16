@@ -130,6 +130,26 @@ describe('withCache', () => {
     expect(callCount()).toBe(4);
   });
 
+  it('serves many concurrent hits to already-cached destinations without extra oracle calls', async () => {
+    const { oracle, callCount } = countingOracle((d) => d.length);
+    const cached = withCache({ ttlMs: 1000, maxEntries: 3, now: () => 0 })(oracle);
+
+    await cached.getScore('GA');
+    await cached.getScore('GB');
+    await cached.getScore('GC');
+    expect(callCount()).toBe(3);
+
+    // Fired together (no await between them), so every one of these takes
+    // the synchronous cache-hit branch in getScoreDetailedImpl — which reads
+    // the entry and decides freshness before any oracle call's promise can
+    // settle — regardless of how the runtime interleaves them afterward.
+    const destinations = ['GA', 'GB', 'GC', 'GA', 'GB', 'GC', 'GA', 'GB', 'GC'];
+    const results = await Promise.all(destinations.map((d) => cached.getScore(d)));
+
+    expect(results).toEqual(destinations.map((d) => d.length));
+    expect(callCount()).toBe(3); // no new oracle calls from the concurrent hits
+  });
+
   it('keeps caches independent across wrapped oracles', async () => {
     const first = countingOracle(() => 1);
     const second = countingOracle(() => 2);

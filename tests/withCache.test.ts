@@ -109,7 +109,13 @@ describe('withCache', () => {
 
   it('evicts the oldest-cached destination past maxEntries', async () => {
     const { oracle, callCount } = countingOracle(() => 1);
-    const cached = withCache({ ttlMs: 10_000, maxEntries: 2 })(oracle);
+    // A fixed clock keeps every destination's measured costMs at exactly 0,
+    // so eviction order is decided purely by GreedyDual's recency term (see
+    // the module doc: uniform cost/confidence degenerates to LRU order).
+    // Without this, real Date.now()'s millisecond resolution can spuriously
+    // measure one destination's fetch as costlier than the others', which
+    // is enough to flip which entry the cost-aware policy protects.
+    const cached = withCache({ ttlMs: 10_000, maxEntries: 2, now: () => 0 })(oracle);
 
     await cached.getScore('GA');
     await cached.getScore('GB');

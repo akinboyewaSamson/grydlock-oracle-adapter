@@ -26,11 +26,14 @@ export interface BatchCallOptions {
   deadlineMs: number;
 }
 
+/** Outcome of a single destination in a batch call. */
 export type BatchItemStatus = 'fulfilled' | 'rejected' | 'deadline-rejected';
 
 /** The individually-recoverable outcome of one destination in a batch. */
 export interface BatchItemResult {
+  /** The destination this result describes. */
   destination: string;
+  /** How the batch call ended for this destination. */
   status: BatchItemStatus;
   /** Present when `status === 'fulfilled'`. */
   score?: number;
@@ -38,6 +41,7 @@ export interface BatchItemResult {
   error?: unknown;
 }
 
+/** The result of a batch `getScores` call. */
 export interface BatchResult {
   /** Same length and order as the input `requests`, one entry per request. */
   results: BatchItemResult[];
@@ -48,9 +52,18 @@ export interface BatchResult {
  * changes to `RiskOracle`/`DetailedRiskOracle` consumers.
  */
 export interface BatchRiskOracle {
+  /**
+   * Scores a batch of destinations with deadline-feasible, priority-aware
+   * admission scheduling.
+   *
+   * @param requests Destinations to score, with optional priority hints.
+   * @param options Per-call batch options.
+   * @returns One result per request, in the same order as `requests`.
+   */
   getScores(requests: BatchDestinationRequest[], options: BatchCallOptions): Promise<BatchResult>;
 }
 
+/** Construction options for {@link toBatchOracle}. */
 export interface BatchRiskOracleOptions {
   /** Hard cap on concurrent in-flight calls to the wrapped oracle. */
   maxConcurrency: number;
@@ -86,6 +99,7 @@ export interface BatchRiskOracleOptions {
   minSamplesForEstimate?: number;
   /** Assumed latency used only before `minSamplesForEstimate` is reached. Default 250. */
   initialLatencyEstimateMs?: number;
+  /** Optional logger for queueing/admission diagnostics. Defaults to the no-op logger. */
   logger?: Logger;
 }
 

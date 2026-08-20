@@ -109,7 +109,9 @@ describe('withCache', () => {
 
   it('evicts the oldest-cached destination past maxEntries', async () => {
     const { oracle, callCount } = countingOracle(() => 1);
-    const cached = withCache({ ttlMs: 10_000, maxEntries: 2 })(oracle);
+    // Use a fixed clock so costMs is 0 for all fetches, making them
+    // exactly equal priority, which falls back to FIFO/LRU eviction.
+    const cached = withCache({ ttlMs: 10_000, maxEntries: 2, now: () => 0 })(oracle);
 
     await cached.getScore('GA');
     await cached.getScore('GB');

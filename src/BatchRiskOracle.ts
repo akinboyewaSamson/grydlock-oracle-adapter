@@ -26,11 +26,14 @@ export interface BatchCallOptions {
   deadlineMs: number;
 }
 
+/** The possible status values for a batch item. */
 export type BatchItemStatus = 'fulfilled' | 'rejected' | 'deadline-rejected';
 
 /** The individually-recoverable outcome of one destination in a batch. */
 export interface BatchItemResult {
+  /** The destination that was scored. */
   destination: string;
+  /** The status of the batch item. */
   status: BatchItemStatus;
   /** Present when `status === 'fulfilled'`. */
   score?: number;
@@ -38,6 +41,7 @@ export interface BatchItemResult {
   error?: unknown;
 }
 
+/** The result of a batch scoring request. */
 export interface BatchResult {
   /** Same length and order as the input `requests`, one entry per request. */
   results: BatchItemResult[];
@@ -48,9 +52,11 @@ export interface BatchResult {
  * changes to `RiskOracle`/`DetailedRiskOracle` consumers.
  */
 export interface BatchRiskOracle {
+  /** Get scores for a batch of requests. */
   getScores(requests: BatchDestinationRequest[], options: BatchCallOptions): Promise<BatchResult>;
 }
 
+/** Configuration options for the batch risk oracle. */
 export interface BatchRiskOracleOptions {
   /** Hard cap on concurrent in-flight calls to the wrapped oracle. */
   maxConcurrency: number;
@@ -86,6 +92,7 @@ export interface BatchRiskOracleOptions {
   minSamplesForEstimate?: number;
   /** Assumed latency used only before `minSamplesForEstimate` is reached. Default 250. */
   initialLatencyEstimateMs?: number;
+  /** The logger instance. */
   logger?: Logger;
 }
 

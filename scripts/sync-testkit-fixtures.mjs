@@ -1,3 +1,4 @@
+/* global console, process, fetch */
 import { readFileSync, writeFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
@@ -21,7 +22,7 @@ async function fetchJson(url) {
   try {
     return { text, data: JSON.parse(text) };
   } catch (err) {
-    throw new Error(`Failed to parse JSON from ${url}: ${err.message}`);
+    throw new Error(`Failed to parse JSON from ${url}: ${err.message}`, { cause: err });
   }
 }
 
@@ -57,7 +58,7 @@ function readLocalJson(filename) {
   try {
     const raw = readFileSync(join(FIXTURES_DIR, filename), 'utf8');
     return JSON.parse(raw);
-  } catch (err) {
+  } catch {
     return null; // File might not exist or be invalid, assume null
   }
 }

@@ -26,14 +26,14 @@ export interface BatchCallOptions {
   deadlineMs: number;
 }
 
-/** The possible status values for a batch item. */
+/** How one destination's batch item was ultimately resolved. */
 export type BatchItemStatus = 'fulfilled' | 'rejected' | 'deadline-rejected';
 
 /** The individually-recoverable outcome of one destination in a batch. */
 export interface BatchItemResult {
-  /** The destination that was scored. */
+  /** The destination this result corresponds to, matching the original request. */
   destination: string;
-  /** The status of the batch item. */
+  /** How this item was resolved. */
   status: BatchItemStatus;
   /** Present when `status === 'fulfilled'`. */
   score?: number;
@@ -41,7 +41,7 @@ export interface BatchItemResult {
   error?: unknown;
 }
 
-/** The result of a batch scoring request. */
+/** The outcome of one `getScores` call, one entry per requested destination. */
 export interface BatchResult {
   /** Same length and order as the input `requests`, one entry per request. */
   results: BatchItemResult[];
@@ -52,11 +52,11 @@ export interface BatchResult {
  * changes to `RiskOracle`/`DetailedRiskOracle` consumers.
  */
 export interface BatchRiskOracle {
-  /** Get scores for a batch of requests. */
+  /** Scores every requested destination, subject to `options`'s deadline. */
   getScores(requests: BatchDestinationRequest[], options: BatchCallOptions): Promise<BatchResult>;
 }
 
-/** Configuration options for the batch risk oracle. */
+/** Tunables for {@link toBatchOracle}. */
 export interface BatchRiskOracleOptions {
   /** Hard cap on concurrent in-flight calls to the wrapped oracle. */
   maxConcurrency: number;
@@ -92,7 +92,7 @@ export interface BatchRiskOracleOptions {
   minSamplesForEstimate?: number;
   /** Assumed latency used only before `minSamplesForEstimate` is reached. Default 250. */
   initialLatencyEstimateMs?: number;
-  /** The logger instance. */
+  /** Logger for deadline rejections and per-item failures. Defaults to the no-op logger. */
   logger?: Logger;
 }
 

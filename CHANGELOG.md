@@ -1,3 +1,10 @@
+# [1.1.0](https://github.com/Gryd-lock/grydlock-oracle-adapter/compare/v1.0.2...v1.1.0) (2026-08-20)
+
+
+### Features
+
+* **api:** align public exports with documented package API ([ecc66de](https://github.com/Gryd-lock/grydlock-oracle-adapter/commit/ecc66de8580e3633b3c09545390083653c4a2758))
+
 ## [1.0.2](https://github.com/Gryd-lock/grydlock-oracle-adapter/compare/v1.0.1...v1.0.2) (2026-08-20)
 
 
